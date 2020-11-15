@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".repo", ".repo", "{D95FB389
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kubernetes.UnitTests", "test\UnitTests\Microsoft.Kubernetes.UnitTests.csproj", "{713E16A6-07A4-4A78-BC25-621F882D21CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,18 @@ Global
 		{8378B26A-2D48-4AB0-820B-ABCB0D380D0B}.Release|x64.Build.0 = Release|Any CPU
 		{8378B26A-2D48-4AB0-820B-ABCB0D380D0B}.Release|x86.ActiveCfg = Release|Any CPU
 		{8378B26A-2D48-4AB0-820B-ABCB0D380D0B}.Release|x86.Build.0 = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|x64.Build.0 = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Debug|x86.Build.0 = Debug|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|x64.ActiveCfg = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|x64.Build.0 = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{713E16A6-07A4-4A78-BC25-621F882D21CB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +108,7 @@ Global
 		{AAE6C890-0771-47D7-9D06-40D4527EDBCF} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
 		{FBE38E24-F77C-4EA0-AEA0-7D8A4F6B3910} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
 		{8378B26A-2D48-4AB0-820B-ABCB0D380D0B} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
+		{713E16A6-07A4-4A78-BC25-621F882D21CB} = {47D58E79-22F9-41E4-AF6B-D29B5CE804D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17E3A270-FBF6-4998-BBA5-32FAC993C740}

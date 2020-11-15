@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using k8s;
 using k8s.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.Falcon.Kubernetes
+namespace Microsoft.Kubernetes.Helpers
 {
     /// <summary>
     /// Struct NamespacedName is a value that acts as a dictionary key. It is a comparable
@@ -23,6 +24,16 @@ namespace Microsoft.Falcon.Kubernetes
         public NamespacedName(string @namespace, string name)
         {
             Namespace = @namespace;
+            Name = name;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamespacedName"/> struct.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        public NamespacedName(string name)
+        {
+            Namespace = null;
             Name = name;
         }
 
@@ -65,11 +76,14 @@ namespace Microsoft.Falcon.Kubernetes
         /// </summary>
         /// <param name="metadata">The metadata.</param>
         /// <returns>NamespacedName.</returns>
-        public static NamespacedName From(V1ObjectMeta metadata)
+        public static NamespacedName From(IKubernetesObject<V1ObjectMeta> resource)
         {
-            _ = metadata ?? throw new ArgumentNullException(nameof(metadata));
+            if (resource is null)
+            {
+                throw new ArgumentNullException(nameof(resource));
+            }
 
-            return new NamespacedName(metadata.NamespaceProperty, metadata.Name);
+            return new NamespacedName(resource.Namespace(), resource.Name());
         }
 
         /// <summary>
