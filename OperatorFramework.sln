@@ -14,9 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.Testing", "src\Testing\Microsoft.Kubernetes.Testing.csproj", "{8378B26A-2D48-4AB0-820B-ABCB0D380D0B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{47D58E79-22F9-41E4-AF6B-D29B5CE804D2}"
-	ProjectSection(SolutionItems) = preProject
-		test\UnitTests\Microsoft.Kubernetes.UnitTests.csproj = test\UnitTests\Microsoft.Kubernetes.UnitTests.csproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".repo", ".repo", "{D95FB389-45A8-4334-B504-C25ACAFDE866}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".repo", ".repo", "{D95FB389
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kubernetes.UnitTests", "test\UnitTests\Microsoft.Kubernetes.UnitTests.csproj", "{713E16A6-07A4-4A78-BC25-621F882D21CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.UnitTests", "test\UnitTests\Microsoft.Kubernetes.UnitTests.csproj", "{713E16A6-07A4-4A78-BC25-621F882D21CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
