@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 using k8s.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

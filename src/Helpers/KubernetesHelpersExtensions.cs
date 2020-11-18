@@ -1,15 +1,14 @@
-﻿// <copyright file="ServiceCollectionKubernetesExtensions.cs" company="Microsoft">
-// Copyright (c) Microsoft. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Linq;
+using k8s;
+using Microsoft.Extensions.Options;
+using Microsoft.Kubernetes.Helpers;
+using Microsoft.Kubernetes.Helpers.Resources;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    using System.Linq;
-    using k8s;
-    using Microsoft.Extensions.Options;
-    using Microsoft.Kubernetes.Helpers;
-    using Microsoft.Kubernetes.Helpers.Resources;
-
     /// <summary>
     /// Class ServiceCollectionKubernetesExtensions.
     /// </summary>
@@ -39,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     var options = sp.GetRequiredService<IOptions<KubernetesClientOptions>>().Value;
 
-                    return new Kubernetes(options.Configuration);
+                    return new k8s.Kubernetes(options.Configuration);
                 });
             }
 

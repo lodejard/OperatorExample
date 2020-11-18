@@ -1,17 +1,16 @@
-﻿// <copyright file="ResourceSerializers.cs" company="Microsoft">
-// Copyright (c) Microsoft. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Rest.Serialization;
+using Newtonsoft.Json;
+using YamlDotNet.Core.Events;
+using YamlDotNet.Serialization;
 
 namespace Microsoft.Kubernetes.Helpers.Resources
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using Microsoft.Rest.Serialization;
-    using Newtonsoft.Json;
-    using YamlDotNet.Core.Events;
-    using YamlDotNet.Serialization;
-
     /// <summary>
     /// Class ResourceSerializers implements the resource serializers interface.
     /// Implements the <see cref="IResourceSerializers" />.

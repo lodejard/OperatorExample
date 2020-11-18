@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
     <IsPackable>false</IsPackable>
     <RootNamespace>Microsoft.Kubernetes</RootNamespace>
   </PropertyGroup>
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Controller\Microsoft.Kubernetes.Controller.csproj" />
     <ProjectReference Include="..\..\src\Helpers\Microsoft.Kubernetes.Helpers.csproj" />
   </ItemGroup>
 

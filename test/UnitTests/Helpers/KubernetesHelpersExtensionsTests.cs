@@ -48,7 +48,7 @@ namespace Microsoft.Kubernetes.Helpers.Helpers
         public void ExistingClientIsNotReplaced()
         {
             // arrange 
-            var client = new k8s.Kubernetes(KubernetesClientConfiguration.BuildDefaultConfig());
+            using var client = new k8s.Kubernetes(KubernetesClientConfiguration.BuildDefaultConfig());
             var services = new ServiceCollection();
 
             // act
