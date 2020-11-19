@@ -6,9 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Kubernetes.Helpers.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Kubernetes.Helpers.Helpers
 {

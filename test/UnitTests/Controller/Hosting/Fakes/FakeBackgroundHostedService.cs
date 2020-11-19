@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Hosting;
-using Microsoft.Kubernetes.Controller.Hosting;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Kubernetes.Controllers.Hosting.Fakes
+namespace Microsoft.Kubernetes.Controller.Hosting.Fakes
 {
     public class FakeBackgroundHostedService : BackgroundHostedService
     {

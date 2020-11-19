@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Kubernetes.Controllers.Hosting.Fakes;
+using Microsoft.Kubernetes.Controller.Hosting.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Micrsoft.Kubernetes.Controllers.Hosting
+namespace Microsoft.Kubernetes.Controller.Hosting
 {
 
     [TestClass]
@@ -24,7 +24,7 @@ namespace Micrsoft.Kubernetes.Controllers.Hosting
             // arrange
             var latches = new TestLatches();
 
-            using var host = new Microsoft.Extensions.Hosting.HostBuilder()
+            using var host = new HostBuilder()
                 .ConfigureServices((hbc, services) =>
                 {
                     services.AddSingleton<IHostedService, FakeBackgroundHostedService>();

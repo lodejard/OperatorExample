@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
 using YamlDotNet.Core.Events;

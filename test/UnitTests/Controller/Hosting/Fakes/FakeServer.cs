@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http.Features;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Kubernetes.Controllers.Hosting.Fakes
+namespace Microsoft.Kubernetes.Controller.Hosting.Fakes
 {
     public sealed class FakeServer : IServer
     {
