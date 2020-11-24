@@ -16,8 +16,6 @@ namespace Microsoft.Kubernetes.Controller.Rate
     [TestClass]
     public class LimiterTests
     {
-        private Task waiTwo;
-
         [TestMethod]
         public void FirstTokenIsAvailable()
         {

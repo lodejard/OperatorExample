@@ -5,6 +5,7 @@ using System.Linq;
 using k8s;
 using Microsoft.Extensions.Options;
 using Microsoft.Kubernetes.Helpers;
+using Microsoft.Kubernetes.Helpers.Client;
 using Microsoft.Kubernetes.Helpers.Resources;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -43,6 +44,17 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return services;
+        }
+    }
+}
+
+namespace k8s
+{
+    public static class KubernetesHelpersExtensions
+    {
+        public static IAnyResourceKind AnyResourceKind(this IKubernetes client)
+        {
+            return new AnyResourceKind(client);
         }
     }
 }

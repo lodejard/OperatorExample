@@ -4,4 +4,17 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="KubernetesClient" Version="3.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Helpers\Microsoft.Kubernetes.Helpers.csproj" />
+    </ItemGroup>
+    
 </Project>

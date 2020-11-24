@@ -13,7 +13,8 @@ namespace Microsoft.Kubernetes.Controller.Hosting.Fakes
 
         public FakeBackgroundHostedService(
             TestLatches context,
-            IHostApplicationLifetime hostApplicationLifetime) : base(hostApplicationLifetime)
+            IHostApplicationLifetime hostApplicationLifetime)
+            : base(hostApplicationLifetime, null)
         {
             _context = context;
         }

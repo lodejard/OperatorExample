@@ -21,6 +21,7 @@ namespace Microsoft.Kubernetes.Helpers
         /// </summary>
         /// <param name="namespace">The namespace.</param>
         /// <param name="name">The name.</param>
+        [Newtonsoft.Json.JsonConstructor]
         public NamespacedName(string @namespace, string name)
         {
             Namespace = @namespace;

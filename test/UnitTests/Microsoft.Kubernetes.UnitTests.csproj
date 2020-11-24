@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controller\Informers\ResourceInformerTests.ResourcesAreListedWhenReadyAsyncIsComplete.yaml" />
+    <None Remove="Controller\Informers\ResourceInformerTests.ResourcesWithApiGroupAreListed.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Controller\Informers\ResourceInformerTests.ResourcesWithApiGroupAreListed.yaml" />
+    <EmbeddedResource Include="Controller\Informers\ResourceInformerTests.ResourcesAreListedWhenReadyAsyncIsComplete.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LiquidTestReports.Markdown" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -20,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Controller\Microsoft.Kubernetes.Controller.csproj" />
     <ProjectReference Include="..\..\src\Helpers\Microsoft.Kubernetes.Helpers.csproj" />
+    <ProjectReference Include="..\..\src\Testing\Microsoft.Kubernetes.Testing.csproj" />
   </ItemGroup>
 
 </Project>

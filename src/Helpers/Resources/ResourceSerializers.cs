@@ -17,19 +17,19 @@ namespace Microsoft.Kubernetes.Helpers.Resources
     /// <seealso cref="IResourceSerializers" />
     public class ResourceSerializers : IResourceSerializers
     {
-        private readonly IDeserializer yamlDeserializer;
-        private readonly JsonSerializerSettings serializationSettings;
+        private readonly IDeserializer _yamlDeserializer;
+        private readonly JsonSerializerSettings _serializationSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceSerializers"/> class.
         /// </summary>
         public ResourceSerializers()
         {
-            yamlDeserializer = new DeserializerBuilder()
+            _yamlDeserializer = new DeserializerBuilder()
                 .WithNodeTypeResolver(new NonStringScalarTypeResolver())
                 .Build();
 
-            serializationSettings = new JsonSerializerSettings
+            _serializationSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.None,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -47,7 +47,7 @@ namespace Microsoft.Kubernetes.Helpers.Resources
         /// <inheritdoc/>
         public T DeserializeYaml<T>(string yaml)
         {
-            var resource = yamlDeserializer.Deserialize<object>(yaml);
+            var resource = _yamlDeserializer.Deserialize<object>(yaml);
 
             return Convert<T>(resource);
         }
@@ -61,13 +61,13 @@ namespace Microsoft.Kubernetes.Helpers.Resources
         /// <inheritdoc/>
         public string SerializeJson(object resource)
         {
-            return SafeJsonConvert.SerializeObject(resource, serializationSettings);
+            return SafeJsonConvert.SerializeObject(resource, _serializationSettings);
         }
 
         /// <inheritdoc/>
         public TResource Convert<TResource>(object resource)
         {
-            var json = SafeJsonConvert.SerializeObject(resource, serializationSettings);
+            var json = SafeJsonConvert.SerializeObject(resource, _serializationSettings);
 
             return DeserializeJson<TResource>(json);
         }

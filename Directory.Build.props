@@ -1,6 +1,10 @@
 <Project>
 
   <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <VersionPrefix>0.2.0</VersionPrefix>
     <RepositoryUrl>https://github.com/microsoft/OperatorFramework</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

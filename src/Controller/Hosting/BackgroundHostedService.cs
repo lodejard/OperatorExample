@@ -33,9 +33,11 @@ namespace Microsoft.Kubernetes.Controller.Hosting
         /// </summary>
         /// <param name="hostApplicationLifetime">The host application lifetime.</param>
         protected BackgroundHostedService(
-            IHostApplicationLifetime hostApplicationLifetime)
+            IHostApplicationLifetime hostApplicationLifetime,
+            ILogger logger)
         {
             _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
+            Logger = logger;
 
             // register the stoppingToken to become cancelled as soon as the
             // shutdown sequence is initiated.
