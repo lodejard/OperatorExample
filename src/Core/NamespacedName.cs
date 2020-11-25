@@ -6,7 +6,7 @@ using k8s.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.Kubernetes.Helpers
+namespace Microsoft.Kubernetes.Core
 {
     /// <summary>
     /// Struct NamespacedName is a value that acts as a dictionary key. It is a comparable
@@ -27,7 +27,7 @@ namespace Microsoft.Kubernetes.Helpers
             Namespace = @namespace;
             Name = name;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NamespacedName"/> struct.
         /// </summary>

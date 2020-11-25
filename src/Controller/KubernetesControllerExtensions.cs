@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddKubernetesControllerRuntime(this IServiceCollection services)
         {
             return services
-                .AddKubernetesHelpers()
+                .AddKubernetesCore()
                 .AddSingleton(typeof(IResourceInformer<>), typeof(ResourceInformer<>));
         }
 

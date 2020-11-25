@@ -3,11 +3,11 @@
 
 using k8s;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Kubernetes.Helpers.Resources;
+using Microsoft.Kubernetes.Core.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 
-namespace Microsoft.Kubernetes.Helpers.Helpers
+namespace Microsoft.Kubernetes.Core.Helpers
 {
     [TestClass]
     public class KubernetesHelpersExtensionsTests
@@ -19,7 +19,7 @@ namespace Microsoft.Kubernetes.Helpers.Helpers
             var services = new ServiceCollection();
 
             // act
-            services.AddKubernetesHelpers();
+            services.AddKubernetesCore();
 
             // assert
             var serviceProvider = services.BuildServiceProvider();
@@ -33,7 +33,7 @@ namespace Microsoft.Kubernetes.Helpers.Helpers
             var services = new ServiceCollection();
 
             // act
-            services.AddKubernetesHelpers();
+            services.AddKubernetesCore();
 
             // assert
             var serviceProvider = services.BuildServiceProvider();
@@ -50,7 +50,7 @@ namespace Microsoft.Kubernetes.Helpers.Helpers
 
             // act
             services.AddSingleton<IKubernetes>(client);
-            services.AddKubernetesHelpers();
+            services.AddKubernetesCore();
             
             // assert
             var serviceProvider = services.BuildServiceProvider();

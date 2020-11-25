@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C7D0AC2-A508-4780-80BD-34D7E6A755B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.Helpers", "src\Helpers\Microsoft.Kubernetes.Helpers.csproj", "{F455261F-C8FC-4F74-9955-9602D90CC1A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.Core", "src\Core\Microsoft.Kubernetes.Core.csproj", "{F455261F-C8FC-4F74-9955-9602D90CC1A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.Controller", "src\Controller\Microsoft.Kubernetes.Controller.csproj", "{AAE6C890-0771-47D7-9D06-40D4527EDBCF}"
 EndProject
@@ -28,7 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.UnitTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{D360F40A-0ECD-40EF-94E1-772DDFF3A392}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodStatusConditions", "examples\PodStatusConditions\PodStatusConditions.csproj", "{06880809-30B1-48DB-BB99-DE613FFABE00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodStatusConditions", "examples\PodStatusConditions\PodStatusConditions.csproj", "{06880809-30B1-48DB-BB99-DE613FFABE00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.CustomResources", "src\CustomResource\Microsoft.Kubernetes.CustomResources.csproj", "{531586B5-8352-4E9E-A489-DB243C2E3B96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingCustomResources", "examples\UsingCustomResources\UsingCustomResources.csproj", "{C86B939A-0266-4535-8CF9-21A35429D7E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +116,30 @@ Global
 		{06880809-30B1-48DB-BB99-DE613FFABE00}.Release|x64.Build.0 = Release|Any CPU
 		{06880809-30B1-48DB-BB99-DE613FFABE00}.Release|x86.ActiveCfg = Release|Any CPU
 		{06880809-30B1-48DB-BB99-DE613FFABE00}.Release|x86.Build.0 = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|x64.Build.0 = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Debug|x86.Build.0 = Debug|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|x64.ActiveCfg = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|x64.Build.0 = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|x86.ActiveCfg = Release|Any CPU
+		{531586B5-8352-4E9E-A489-DB243C2E3B96}.Release|x86.Build.0 = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|x64.Build.0 = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|x64.ActiveCfg = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|x64.Build.0 = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{C86B939A-0266-4535-8CF9-21A35429D7E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +151,8 @@ Global
 		{8378B26A-2D48-4AB0-820B-ABCB0D380D0B} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
 		{713E16A6-07A4-4A78-BC25-621F882D21CB} = {47D58E79-22F9-41E4-AF6B-D29B5CE804D2}
 		{06880809-30B1-48DB-BB99-DE613FFABE00} = {D360F40A-0ECD-40EF-94E1-772DDFF3A392}
+		{531586B5-8352-4E9E-A489-DB243C2E3B96} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
+		{C86B939A-0266-4535-8CF9-21A35429D7E3} = {D360F40A-0ECD-40EF-94E1-772DDFF3A392}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17E3A270-FBF6-4998-BBA5-32FAC993C740}

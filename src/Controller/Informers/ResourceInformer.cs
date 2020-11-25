@@ -15,8 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Kubernetes.Controller.Hosting;
 using Microsoft.Kubernetes.Controller.Rate;
-using Microsoft.Kubernetes.Helpers;
-using Microsoft.Kubernetes.Helpers.Client;
+using Microsoft.Kubernetes.Core;
+using Microsoft.Kubernetes.Core.Client;
 
 #pragma warning disable CA2213 // Disposable fields should be disposed
 

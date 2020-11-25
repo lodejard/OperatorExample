@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Kubernetes.Helpers.Resources;
+using Microsoft.Kubernetes.Core.Resources;
 using System;
 using System.Diagnostics;
 using System.IO;

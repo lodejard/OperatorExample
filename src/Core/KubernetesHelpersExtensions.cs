@@ -4,9 +4,9 @@
 using System.Linq;
 using k8s;
 using Microsoft.Extensions.Options;
-using Microsoft.Kubernetes.Helpers;
-using Microsoft.Kubernetes.Helpers.Client;
-using Microsoft.Kubernetes.Helpers.Resources;
+using Microsoft.Kubernetes.Core;
+using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.Core.Client;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The services.</param>
         /// <returns>IServiceCollection.</returns>
-        public static IServiceCollection AddKubernetesHelpers(this IServiceCollection services)
+        public static IServiceCollection AddKubernetesCore(this IServiceCollection services)
         {
             services = services
                 .AddTransient<IResourceSerializers, ResourceSerializers>();

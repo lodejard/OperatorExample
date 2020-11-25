@@ -43,7 +43,7 @@ namespace Microsoft.Kubernetes.Controller.Rate
         private readonly object _sync = new object();
         private readonly Limit _limit;
         private readonly ISystemClock _clock;
-        private int _burst;
+        private readonly int _burst;
         private double _tokens;
 
         /// <summary>

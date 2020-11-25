@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using k8s;
 using k8s.Models;
 
-namespace Microsoft.Kubernetes.Helpers
+namespace Microsoft.Kubernetes.Core
 {
     /// <summary>
     /// Struct GroupKindNamespacedName is a value that acts as a dictionary key. It is a comparable

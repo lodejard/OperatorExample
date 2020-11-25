@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Kubernetes.Helpers.Resources;
+using Microsoft.Kubernetes.Core.Resources;
 
 namespace Microsoft.Kubernetes.Testing
 {

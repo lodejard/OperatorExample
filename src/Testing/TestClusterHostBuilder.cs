@@ -7,11 +7,8 @@ using k8s.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Rest;
 using System;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Sockets;
 
 namespace Microsoft.Kubernetes.Testing

@@ -18,7 +18,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Kubernetes.Helpers.Client
+namespace Microsoft.Kubernetes.Core.Client
 {
     public interface IAnyResourceKind
     {

@@ -18,7 +18,7 @@ namespace Microsoft.Kubernetes.Controller.Rate
         private readonly ISystemClock _clock;
         private readonly Limiter _limiter;
         private readonly Limit _limit;
-        private double _tokens;
+        private readonly double _tokens;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Reservation"/> class.

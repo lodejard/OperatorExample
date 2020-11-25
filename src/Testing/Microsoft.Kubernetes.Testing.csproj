@@ -14,7 +14,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\Helpers\Microsoft.Kubernetes.Helpers.csproj" />
+      <ProjectReference Include="..\Core\Microsoft.Kubernetes.Core.csproj" />
     </ItemGroup>
     
 </Project>

@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Helpers\Microsoft.Kubernetes.Helpers.csproj" />
+        <ProjectReference Include="..\..\src\Core\Microsoft.Kubernetes.Core.csproj" />
     </ItemGroup>
 
 </Project>
