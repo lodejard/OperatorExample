@@ -3,6 +3,7 @@
 
 using Microsoft.Kubernetes.Controllers.Rate.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Polly;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -171,56 +172,62 @@ namespace Microsoft.Kubernetes.Controller.Rate
         [TestMethod]
         public async Task ManyWaitsStackUp()
         {
-            // arrange
-            var limiter = new Limiter(new Limit(10), 5);
-            using var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-
-            // act
-            while (cancellation.IsCancellationRequested == false)
-            {
-                var task = limiter.WaitAsync(cancellation.Token);
-                if (!task.IsCompleted)
+            await Policy
+                .Handle<ShouldAssertException>()
+                .RetryAsync(3)
+                .ExecuteAsync(async () =>
                 {
-                    await task.ConfigureAwait(false);
-                    break;
-                }
-            }
+                    // arrange
+                    var limiter = new Limiter(new Limit(10), 5);
+                    using var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-            var delayOne = new Stopwatch();
-            delayOne.Start();
+                    // act
+                    while (cancellation.IsCancellationRequested == false)
+                    {
+                        var task = limiter.WaitAsync(cancellation.Token);
+                        if (!task.IsCompleted)
+                        {
+                            await task.ConfigureAwait(false);
+                            break;
+                        }
+                    }
 
-            var delayTwo = new Stopwatch();
-            delayTwo.Start();
+                    var delayOne = new Stopwatch();
+                    delayOne.Start();
 
-            var delayThree = new Stopwatch();
-            delayThree.Start();
+                    var delayTwo = new Stopwatch();
+                    delayTwo.Start();
 
-            var waits = new List<Task>
-            {
-                limiter.WaitAsync(cancellation.Token),
-                limiter.WaitAsync(cancellation.Token),
-                limiter.WaitAsync(cancellation.Token),
-            };
+                    var delayThree = new Stopwatch();
+                    delayThree.Start();
 
-            var taskOne = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
-            await taskOne.ConfigureAwait(false);
-            delayOne.Stop();
-            waits.Remove(taskOne);
+                    var waits = new List<Task>
+                    {
+                        limiter.WaitAsync(cancellation.Token),
+                        limiter.WaitAsync(cancellation.Token),
+                        limiter.WaitAsync(cancellation.Token),
+                    };
 
-            var taskTwo = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
-            await taskTwo.ConfigureAwait(false);
-            delayTwo.Stop();
-            waits.Remove(taskTwo);
+                    var taskOne = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
+                    await taskOne.ConfigureAwait(false);
+                    delayOne.Stop();
+                    waits.Remove(taskOne);
 
-            var taskThree = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
-            await taskThree.ConfigureAwait(false);
-            delayThree.Stop();
-            waits.Remove(taskThree);
+                    var taskTwo = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
+                    await taskTwo.ConfigureAwait(false);
+                    delayTwo.Stop();
+                    waits.Remove(taskTwo);
 
-            // assert
-            delayOne.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(100), tolerance: TimeSpan.FromMilliseconds(25));
-            delayTwo.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(200), tolerance: TimeSpan.FromMilliseconds(25));
-            delayThree.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(300), tolerance: TimeSpan.FromMilliseconds(25));
+                    var taskThree = await Task.WhenAny(waits.ToArray()).ConfigureAwait(false);
+                    await taskThree.ConfigureAwait(false);
+                    delayThree.Stop();
+                    waits.Remove(taskThree);
+
+                    // assert
+                    delayOne.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(100), tolerance: TimeSpan.FromMilliseconds(25));
+                    delayTwo.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(200), tolerance: TimeSpan.FromMilliseconds(25));
+                    delayThree.Elapsed.ShouldBe(TimeSpan.FromMilliseconds(300), tolerance: TimeSpan.FromMilliseconds(25));
+                }).ConfigureAwait(false);
         }
     }
 }

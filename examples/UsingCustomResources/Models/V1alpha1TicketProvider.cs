@@ -4,9 +4,6 @@
 using k8s;
 using k8s.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UsingCustomResources.Models
 {
