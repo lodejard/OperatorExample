@@ -9,7 +9,7 @@ namespace Microsoft.Kubernetes.Controller.Hosting.Fakes
 {
     public class TestLatch
     {
-        readonly TaskCompletionSource<bool> _completion = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> _completion = new TaskCompletionSource<bool>();
 
         public void Signal()
         {

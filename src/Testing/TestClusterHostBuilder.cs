@@ -15,7 +15,7 @@ namespace Microsoft.Kubernetes.Testing
 {
     public class TestClusterHostBuilder
     {
-        readonly IHostBuilder _hostBuilder = new HostBuilder();
+        private readonly IHostBuilder _hostBuilder = new HostBuilder();
 
         public ITestClusterHost Build()
         {

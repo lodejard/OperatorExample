@@ -39,7 +39,7 @@ namespace Microsoft.Kubernetes.CustomResources
                 {
                     new ObjectTypeMapper(
                         typeof(V1ObjectMeta),
-                        new JsonSchema4
+                        new JsonSchema
                         {
                             Type = JsonObjectType.Object,
                         }),
@@ -114,7 +114,7 @@ namespace Microsoft.Kubernetes.CustomResources
         private async Task<V1JSONSchemaProps> GenerateJsonSchemaAsync(Type resourceType)
         {
             // start with JsonSchema
-            var schema = await JsonSchema4.FromTypeAsync(resourceType, _jsonSchemaGeneratorSettings);
+            var schema = JsonSchema.FromType(resourceType, _jsonSchemaGeneratorSettings);
 
             // convert to JToken to make alterations
             var rootToken = JObject.Parse(schema.ToJson());
