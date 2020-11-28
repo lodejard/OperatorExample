@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
 using k8s;
 using k8s.Models;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Kubernetes.Core
 {

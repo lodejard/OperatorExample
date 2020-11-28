@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Kubernetes.Controller.Rate;
-using Microsoft.Kubernetes.Controllers.Rate.Fakes;
+using Microsoft.Kubernetes.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System;
@@ -18,8 +18,8 @@ namespace Microsoft.Kubernetes.Controllers.Rate
             // arrange 
             var clock = new FakeSystemClock();
             var reservation = new Reservation(
-                clock: clock, 
-                limiter: default, 
+                clock: clock,
+                limiter: default,
                 ok: false);
 
             // act
@@ -42,8 +42,8 @@ namespace Microsoft.Kubernetes.Controllers.Rate
             // arrange 
             var clock = new FakeSystemClock();
             var reservation = new Reservation(
-                clock: clock, 
-                limiter: default, 
+                clock: clock,
+                limiter: default,
                 ok: true,
                 timeToAct: clock.UtcNow,
                 limit: default);
@@ -61,15 +61,15 @@ namespace Microsoft.Kubernetes.Controllers.Rate
             delay2.ShouldBe(TimeSpan.Zero);
             delayFrom2.ShouldBe(TimeSpan.Zero);
         }
-        
+
         [TestMethod]
         public void DelayGetsSmallerAsTimePasses()
         {
             // arrange 
             var clock = new FakeSystemClock();
             var reservation = new Reservation(
-                clock: clock, 
-                limiter: default, 
+                clock: clock,
+                limiter: default,
                 ok: true,
                 timeToAct: clock.UtcNow.Add(TimeSpan.FromMinutes(5)),
                 limit: default);
@@ -86,15 +86,15 @@ namespace Microsoft.Kubernetes.Controllers.Rate
             delay2.ShouldBe(TimeSpan.FromMinutes(2));
             delay3.ShouldBe(TimeSpan.Zero);
         }
-        
+
         [TestMethod]
         public void DelayFromNotChangedByTimePassing()
         {
             // arrange 
             var clock = new FakeSystemClock();
             var reservation = new Reservation(
-                clock: clock, 
-                limiter: default, 
+                clock: clock,
+                limiter: default,
                 ok: true,
                 timeToAct: clock.UtcNow.Add(TimeSpan.FromMinutes(5)),
                 limit: default);

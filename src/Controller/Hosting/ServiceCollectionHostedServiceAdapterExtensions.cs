@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Linq;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Kubernetes.Controller.Hosting;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

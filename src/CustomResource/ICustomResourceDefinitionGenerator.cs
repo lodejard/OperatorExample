@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using k8s.Models;
 using System;
 using System.Threading.Tasks;
-using k8s.Models;
 
 namespace Microsoft.Kubernetes.CustomResources
 {

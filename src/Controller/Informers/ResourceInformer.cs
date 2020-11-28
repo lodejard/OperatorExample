@@ -1,14 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +9,14 @@ using Microsoft.Kubernetes.Controller.Hosting;
 using Microsoft.Kubernetes.Controller.Rate;
 using Microsoft.Kubernetes.Core;
 using Microsoft.Kubernetes.Core.Client;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 #pragma warning disable CA2213 // Disposable fields should be disposed
 

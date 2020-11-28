@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 

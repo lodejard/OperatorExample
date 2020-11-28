@@ -61,7 +61,7 @@ namespace Microsoft.Kubernetes.Controller.Informers
             // assert
             pods.Keys.ShouldBe(testYaml.shouldBe);
         }
-        
+
         [TestMethod]
         public async Task ResourcesWithApiGroupAreListed()
         {

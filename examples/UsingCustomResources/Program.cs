@@ -24,6 +24,10 @@ using UsingCustomResources.Models;
 
 namespace UsingCustomResources
 {
+    /// <summary>
+    /// Program main entrypoint.
+    /// </summary>
+    /// <seealso cref="Microsoft.Kubernetes.Controller.Hosting.BackgroundHostedService" />
     public class Program : BackgroundHostedService
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
@@ -32,6 +36,15 @@ namespace UsingCustomResources
         private readonly IResourceSerializers _serializers;
         private readonly IKubernetes _client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Program"/> class.
+        /// </summary>
+        /// <param name="hostApplicationLifetime">The host application lifetime.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="logger">The logger.</param>
+        /// <param name="client">The client.</param>
+        /// <param name="generator">The generator.</param>
+        /// <param name="serializers">The serializers.</param>
         public Program(
             IHostApplicationLifetime hostApplicationLifetime,
             IConfiguration configuration,
@@ -48,6 +61,11 @@ namespace UsingCustomResources
             _serializers = serializers;
         }
 
+        /// <summary>
+        /// Main entrypoint for console application.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <returns>Process exit code.</returns>
         public static async Task<int> Main(string[] args)
         {
             try
@@ -96,6 +114,10 @@ namespace UsingCustomResources
             return 1;
         }
 
+        /// <summary>
+        /// Runs the asynchronous background work.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public override async Task RunAsync(CancellationToken cancellationToken)
         {
             // One way to establish CRD is to write them out, possibly from a utility project

@@ -118,7 +118,7 @@ namespace Microsoft.Kubernetes.CustomResources
             schema.Properties["spec"].Type.ShouldBe("object");
             schema.Properties["status"].Type.ShouldBe("object");
         }
-        
+
         [TestMethod]
         public async Task DescriptionsComeFromDocComments()
         {

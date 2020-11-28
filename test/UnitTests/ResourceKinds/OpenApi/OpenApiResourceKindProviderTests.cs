@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using Shouldly;
 using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Shouldly;
+using System.Threading.Tasks;
 
 namespace Microsoft.Kubernetes.ResourceKinds.OpenApi
 {
@@ -14,7 +14,7 @@ namespace Microsoft.Kubernetes.ResourceKinds.OpenApi
         public static OpenApiResourceKindProvider SharedProvider { get; set; }
 
         [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public static void ClassInitialize(TestContext testContext)
         {
             SharedProvider = new OpenApiResourceKindProvider();
         }

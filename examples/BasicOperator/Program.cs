@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BasicOperator
 {
-    class Program
+    internal class Program
     {
         public static async Task<int> Main(string[] args)
         {

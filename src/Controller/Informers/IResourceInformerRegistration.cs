@@ -13,7 +13,7 @@ namespace Microsoft.Kubernetes.Controller.Informers
     /// </summary>
     public interface IResourceInformerRegistration : IDisposable
     {
-         /// <summary>
+        /// <summary>
         /// Returns a task that can be awaited to know when the initial listing of resources is complete.
         /// Once an await on this method it is safe to assume that all of the knowledge of this resource
         /// type has been made available, and everything going forward will be updatres.

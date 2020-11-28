@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Internal;
 using System;
 
-namespace Microsoft.Kubernetes.Controllers.Rate.Fakes
+namespace Microsoft.Kubernetes.Fakes
 {
     public class FakeSystemClock : ISystemClock
     {

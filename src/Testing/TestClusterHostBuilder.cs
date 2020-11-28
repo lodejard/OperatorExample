@@ -73,8 +73,8 @@ namespace Microsoft.Kubernetes.Testing
                         }
                     }
                 },
-            };            
-            
+            };
+
             var clientConfiguration = KubernetesClientConfiguration.BuildConfigFromConfigObject(kubeConfig);
 
             var client = new k8s.Kubernetes(clientConfiguration);

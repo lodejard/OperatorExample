@@ -5,10 +5,10 @@ namespace Microsoft.Kubernetes.Core.Resources
 {
     public interface IResourceKind
     {
-        string ApiVersion { get;  }
+        string ApiVersion { get; }
 
-        string Kind { get;  }
+        string Kind { get; }
 
-        IResourceKindElement Schema { get;  }
+        IResourceKindElement Schema { get; }
     }
 }

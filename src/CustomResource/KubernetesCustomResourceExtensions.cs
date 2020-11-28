@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddKubernetesCustomResources(this IServiceCollection services)
         {
-            if (!services.Any(services=>services.ServiceType == typeof(ICustomResourceDefinitionGenerator)))
+            if (!services.Any(services => services.ServiceType == typeof(ICustomResourceDefinitionGenerator)))
             {
                 services = services.AddTransient<ICustomResourceDefinitionGenerator, CustomResourceDefinitionGenerator>();
             }
@@ -26,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public static IServiceCollection AddCustomResourceDefinitionUpdater<TResource>(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             Action<CustomResourceDefinitionUpdaterOptions> configure)
         {
             return services

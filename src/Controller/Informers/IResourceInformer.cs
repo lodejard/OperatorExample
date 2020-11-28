@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Kubernetes.Controller.Informers
 {

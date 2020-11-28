@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using k8s.Models;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -13,6 +8,11 @@ using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Kubernetes.CustomResources
 {
@@ -108,7 +108,7 @@ namespace Microsoft.Kubernetes.CustomResources
         /// <returns>The generated V1CustomResourceDefinition instance.</returns>
         public Task<V1CustomResourceDefinition> GenerateCustomResourceDefinitionAsync<TResource>(string scope)
         {
-           return GenerateCustomResourceDefinitionAsync(typeof(TResource), scope);
+            return GenerateCustomResourceDefinitionAsync(typeof(TResource), scope);
         }
 
         private async Task<V1JSONSchemaProps> GenerateJsonSchemaAsync(Type resourceType)

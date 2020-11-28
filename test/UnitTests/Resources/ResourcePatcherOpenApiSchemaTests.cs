@@ -85,7 +85,7 @@ namespace Microsoft.Kubernetes.Resources
         {
             await RunStandardTest(TestYaml.LoadFromEmbeddedStream<StandardTestYaml>());
         }
-        
+
         [TestMethod]
         public async Task MergedArrayOfObjectsCanAddItems()
         {
@@ -97,7 +97,7 @@ namespace Microsoft.Kubernetes.Resources
         {
             await RunStandardTest(TestYaml.LoadFromEmbeddedStream<StandardTestYaml>());
         }
-     
+
         [TestMethod]
         public async Task MergedArrayOfObjectsPreserveItemsIfNotLastApplied()
         {

@@ -40,9 +40,9 @@ namespace Microsoft.Kubernetes.Core
         [DataRow(null, "n1", null, "n2", false)]
         public void EqualityAndInequality(
             string namespace1,
-            string name1, 
-            string namespace2, 
-            string name2, 
+            string name1,
+            string namespace2,
+            string name2,
             bool shouldBeEqual)
         {
             // arrange

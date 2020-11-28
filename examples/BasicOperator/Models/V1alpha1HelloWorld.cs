@@ -9,7 +9,7 @@ namespace BasicOperator.Models
 {
     [KubernetesEntity(ApiVersion = KubeApiVersion, Group = KubeGroup, Kind = KubeKind, PluralName = "helloworlds")]
     public class V1alpha1HelloWorld : IKubernetesObject<V1ObjectMeta>, ISpec<V1alpha1HelloWorldSpec>, IStatus<V1alpha1HelloWorldStatus>
-    {        
+    {
         public const string KubeApiVersion = "v1alpha1";
         public const string KubeGroup = "basic-operator.example.io";
         public const string KubeKind = "HelloWorld";

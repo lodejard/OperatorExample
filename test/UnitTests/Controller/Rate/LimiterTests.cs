@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Kubernetes.Controllers.Rate.Fakes;
+using Microsoft.Kubernetes.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Polly;
 using Shouldly;

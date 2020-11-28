@@ -16,8 +16,19 @@ namespace UsingCustomResources.Models
     [KubernetesEntity(ApiVersion = KubeApiVersion, Group = KubeGroup, Kind = KubeKind, PluralName = "tickets")]
     public class V1alpha1Ticket : IKubernetesObject<V1ObjectMeta>, ISpec<V1alpha1TicketSpec>, IStatus<V1alpha1TicketStatus>
     {
+        /// <summary>
+        /// The API Version this Kubernetes type belongs to.
+        /// </summary>
         public const string KubeApiVersion = "v1alpha1";
+
+        /// <summary>
+        /// The Group this Kubernetes type belongs to.
+        /// </summary>
         public const string KubeGroup = "ticketing.example.io";
+
+        /// <summary>
+        /// The Kubernetes named schema this object is based on.
+        /// </summary>
         public const string KubeKind = "Ticket";
 
         /// <inheritdoc/>
@@ -46,6 +57,10 @@ namespace UsingCustomResources.Models
         public V1alpha1TicketStatus Status { get; set; }
     }
 
+    /// <summary>
+    /// Spec contains the desired state of a work item that should be created in a related
+    /// tracking database, e.g. GitHub Issues or AzureDevOps WorkItems.
+    /// </summary>
     public class V1alpha1TicketSpec
     {
         /// <summary>
@@ -68,6 +83,9 @@ namespace UsingCustomResources.Models
         public string Title { get; set; }
     }
 
+    /// <summary>
+    /// Status contains the current state of the work item as it stands in the tracking database.
+    /// </summary>
     public class V1alpha1TicketStatus
     {
         /// <summary>

@@ -40,7 +40,7 @@ namespace Microsoft.Kubernetes.Core.Helpers
             serviceProvider.GetService<IResourceSerializers>().ShouldNotBeNull();
         }
 
-        
+
         [TestMethod]
         public void ExistingClientIsNotReplaced()
         {
@@ -51,7 +51,7 @@ namespace Microsoft.Kubernetes.Core.Helpers
             // act
             services.AddSingleton<IKubernetes>(client);
             services.AddKubernetesCore();
-            
+
             // assert
             var serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetService<IKubernetes>().ShouldBeSameAs(client);

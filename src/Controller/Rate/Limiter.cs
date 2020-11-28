@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Internal;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Internal;
 
 namespace Microsoft.Kubernetes.Controller.Rate
 {
@@ -55,7 +55,7 @@ namespace Microsoft.Kubernetes.Controller.Rate
         /// the latest time of a rate-limited event (past or future).
         /// </summary>
         private DateTimeOffset _lastEvent;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Limiter" /> class.
         /// Allows events up to <see cref="Limit" /><paramref name="limit" /> and permits bursts of

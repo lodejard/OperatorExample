@@ -29,7 +29,7 @@ namespace Microsoft.Kubernetes.Testing
         public async Task<object> ListAsync(ListParameters parameters)
         {
             var result = _testCluster.ListResources(string.Empty, Version, Plural, parameters);
-            
+
             return new KubernetesList<ResourceObject>(
                 apiVersion: Version,
                 kind: "PodList",
