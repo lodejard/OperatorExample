@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingCustomResources", "exa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Kubernetes.ResourceKinds.OpenApi", "src\ResourceKinds.OpenApi\Microsoft.Kubernetes.ResourceKinds.OpenApi.csproj", "{6F28CA95-71B0-4DA3-B207-1EAAA0F09009}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicOperator", "examples\BasicOperator\BasicOperator.csproj", "{255566E4-5C53-425A-8BE7-D099EDF05868}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,18 @@ Global
 		{6F28CA95-71B0-4DA3-B207-1EAAA0F09009}.Release|x64.Build.0 = Release|Any CPU
 		{6F28CA95-71B0-4DA3-B207-1EAAA0F09009}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F28CA95-71B0-4DA3-B207-1EAAA0F09009}.Release|x86.Build.0 = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|x64.Build.0 = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Debug|x86.Build.0 = Debug|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|x64.ActiveCfg = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|x64.Build.0 = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|x86.ActiveCfg = Release|Any CPU
+		{255566E4-5C53-425A-8BE7-D099EDF05868}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +182,7 @@ Global
 		{531586B5-8352-4E9E-A489-DB243C2E3B96} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
 		{C86B939A-0266-4535-8CF9-21A35429D7E3} = {D360F40A-0ECD-40EF-94E1-772DDFF3A392}
 		{6F28CA95-71B0-4DA3-B207-1EAAA0F09009} = {9C7D0AC2-A508-4780-80BD-34D7E6A755B3}
+		{255566E4-5C53-425A-8BE7-D099EDF05868} = {D360F40A-0ECD-40EF-94E1-772DDFF3A392}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17E3A270-FBF6-4998-BBA5-32FAC993C740}

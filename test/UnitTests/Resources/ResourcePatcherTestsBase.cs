@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Kubernetes.Core.Resources;
-using Microsoft.Kubernetes.ResourceKinds.OpenApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

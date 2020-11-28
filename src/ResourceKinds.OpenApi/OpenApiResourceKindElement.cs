@@ -1,4 +1,7 @@
-﻿using Microsoft.Kubernetes.Core.Resources;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.Kubernetes.Core.Resources;
 using NJsonSchema;
 using System;
 

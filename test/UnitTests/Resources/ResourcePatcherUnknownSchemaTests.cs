@@ -3,12 +3,6 @@
 
 using Microsoft.Kubernetes.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Microsoft.Kubernetes.Resources

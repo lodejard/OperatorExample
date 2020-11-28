@@ -95,6 +95,11 @@ namespace Microsoft.Kubernetes.Controller.Informers
             return new Registration(this, callback);
         }
 
+        public IResourceInformerRegistration Register(ResourceInformerCallback<IKubernetesObject<V1ObjectMeta>> callback)
+        {
+            return new Registration(this, (eventType, resource) => callback(eventType, resource));
+        }
+
         /// <inheritdoc/>
         public virtual async Task ReadyAsync(CancellationToken cancellationToken)
         {

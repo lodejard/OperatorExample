@@ -4,6 +4,7 @@
 using k8s;
 using k8s.Models;
 using Microsoft.Kubernetes.Controller.Informers;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -11,9 +12,14 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddKubernetesControllerRuntime(this IServiceCollection services)
         {
-            return services
-                .AddKubernetesCore()
-                .AddSingleton(typeof(IResourceInformer<>), typeof(ResourceInformer<>));
+            services = services.AddKubernetesCore();
+
+            if (!services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(IResourceInformer<>)))
+            {
+                services = services.AddSingleton(typeof(IResourceInformer<>), typeof(ResourceInformer<>));
+            }
+
+            return services;
         }
 
         /// <summary>

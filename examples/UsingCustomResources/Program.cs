@@ -1,4 +1,7 @@
-﻿using k8s;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
