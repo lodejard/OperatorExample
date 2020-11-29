@@ -5,7 +5,6 @@ using k8s;
 using k8s.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Kubernetes.Core;
 using Microsoft.Kubernetes.Testing;
 using Microsoft.Kubernetes.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

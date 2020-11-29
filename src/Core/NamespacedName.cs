@@ -6,7 +6,7 @@ using k8s.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.Kubernetes.Core
+namespace Microsoft.Kubernetes
 {
     /// <summary>
     /// Struct NamespacedName is a value that acts as a dictionary key. It is a comparable

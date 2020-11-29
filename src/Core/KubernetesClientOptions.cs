@@ -3,7 +3,7 @@
 
 using k8s;
 
-namespace Microsoft.Kubernetes.Core
+namespace Microsoft.Kubernetes
 {
     /// <summary>
     /// Class KubernetesClientOptions.

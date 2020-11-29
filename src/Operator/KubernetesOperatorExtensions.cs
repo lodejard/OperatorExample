@@ -5,6 +5,7 @@ using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Kubernetes.Operator;
+using Microsoft.Kubernetes.Operator.Caches;
 using System;
 using System.Linq;
 
@@ -21,11 +22,21 @@ namespace Microsoft.Extensions.DependencyInjection
                 services = services.AddSingleton(typeof(IOperatorHandler<>), typeof(OperatorHandler<>));
             }
 
+            if (!services.Any(services => services.ServiceType == typeof(IOperatorCache<>)))
+            {
+                services = services.AddSingleton(typeof(IOperatorCache<>), typeof(OperatorCache<>));
+            }
+
+            if (!services.Any(services => services.ServiceType == typeof(IReconciler<>)))
+            {
+                services = services.AddSingleton(typeof(IReconciler<>), typeof(Reconciler<>));
+            }
+
             return services;
         }
 
         public static OperatorServiceCollectionBuilder<TResource> AddOperator<TResource>(this IServiceCollection services)
-            where TResource : IKubernetesObject<V1ObjectMeta>, new()
+            where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             if (services is null)
             {
@@ -34,14 +45,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services = services
                 .AddKubernetesOperatorRuntime()
-                .RegisterHostedService<IOperatorHandler<TResource>>()
+                .AddHostedService<OperatorHostedService<TResource>>()
                 .RegisterOperatorResourceInformer<TResource, TResource>();
 
             return new OperatorServiceCollectionBuilder<TResource>(services);
         }
 
         public static IServiceCollection AddOperator<TResource>(this IServiceCollection services, Action<OperatorServiceCollectionBuilder<TResource>> configure)
-            where TResource : IKubernetesObject<V1ObjectMeta>, new()
+            where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             if (services is null)
             {
@@ -58,7 +69,8 @@ namespace Microsoft.Extensions.DependencyInjection
             return operatorServices.Services;
         }
 
-        public static IServiceCollection RegisterOperatorResourceInformer<TOperatorResource, TRelatedResource>(this IServiceCollection services) where TRelatedResource : IKubernetesObject<V1ObjectMeta>, new()
+        public static IServiceCollection RegisterOperatorResourceInformer<TOperatorResource, TRelatedResource>(this IServiceCollection services) 
+            where TRelatedResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             return services
                 .RegisterResourceInformer<TRelatedResource>()

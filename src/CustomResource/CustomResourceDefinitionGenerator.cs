@@ -11,7 +11,6 @@ using NJsonSchema.Generation.TypeMappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Microsoft.Kubernetes.CustomResources
@@ -69,31 +68,24 @@ namespace Microsoft.Kubernetes.CustomResources
         /// <returns>The generated V1CustomResourceDefinition instance.</returns>
         public async Task<V1CustomResourceDefinition> GenerateCustomResourceDefinitionAsync(Type resourceType, string scope)
         {
-            var entity = resourceType.GetTypeInfo().GetCustomAttribute<KubernetesEntityAttribute>();
-
-            var group = entity.Group;
-            var version = entity.ApiVersion;
-            var kind = entity.Kind;
-            var plural = entity.PluralName;
-            var name = $"{plural}.{group}";
-
+            var names = GroupApiVersionKind.From(resourceType);
             var schema = await GenerateJsonSchemaAsync(resourceType);
 
             return new V1CustomResourceDefinition(
                 apiVersion: $"{V1CustomResourceDefinition.KubeGroup}/{V1CustomResourceDefinition.KubeApiVersion}",
                 kind: V1CustomResourceDefinition.KubeKind,
                 metadata: new V1ObjectMeta(
-                    name: name),
+                    name: names.PluralNameGroup),
                 spec: new V1CustomResourceDefinitionSpec(
-                    group: group,
+                    group: names.Group,
                     names: new V1CustomResourceDefinitionNames(
-                        kind: kind,
-                        plural: plural),
+                        kind: names.Kind,
+                        plural: names.PluralName),
                     scope: scope,
                     versions: new List<V1CustomResourceDefinitionVersion>
                     {
                         new V1CustomResourceDefinitionVersion(
-                            name: version,
+                            name: names.ApiVersion,
                             served: true,
                             storage: true,
                             schema: new V1CustomResourceValidation(schema)),

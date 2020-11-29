@@ -59,7 +59,7 @@ namespace UsingCustomResources
             string version,
             string plural,
             TResource resource,
-            CancellationToken cancellationToken) where TResource : IKubernetesObject<V1ObjectMeta>, new()
+            CancellationToken cancellationToken) where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             if (client is null)
             {
@@ -119,7 +119,7 @@ namespace UsingCustomResources
             string version,
             string plural,
             TResource resource,
-            CancellationToken cancellationToken) where TResource : IKubernetesObject<V1ObjectMeta>, new()
+            CancellationToken cancellationToken) where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             if (client is null)
             {

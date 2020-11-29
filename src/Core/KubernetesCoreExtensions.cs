@@ -3,7 +3,7 @@
 
 using k8s;
 using Microsoft.Extensions.Options;
-using Microsoft.Kubernetes.Core;
+using Microsoft.Kubernetes;
 using Microsoft.Kubernetes.Core.Client;
 using Microsoft.Kubernetes.Core.Resources;
 using System.Linq;

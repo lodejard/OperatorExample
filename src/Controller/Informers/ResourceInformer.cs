@@ -7,14 +7,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Kubernetes.Controller.Hosting;
 using Microsoft.Kubernetes.Controller.Rate;
-using Microsoft.Kubernetes.Core;
 using Microsoft.Kubernetes.Core.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,13 +29,11 @@ namespace Microsoft.Kubernetes.Controller.Informers
     /// <seealso cref="IResourceInformer{TResource}" />
     /// <seealso cref="IDisposable" />
     public class ResourceInformer<TResource> : BackgroundHostedService, IResourceInformer<TResource>
-        where TResource : IKubernetesObject<V1ObjectMeta>, new()
+        where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
     {
         private readonly object _sync = new object();
         private readonly IAnyResourceKind _client;
-        private readonly KubernetesEntityAttribute _entity;
-        private readonly string _itemApiVersion;
-        private readonly string _itemKind;
+        private readonly GroupApiVersionKind _names;
         private readonly SemaphoreSlim _ready = new SemaphoreSlim(0);
         private ImmutableList<Registration> _registrations = ImmutableList<Registration>.Empty;
         private IDictionary<NamespacedName, IList<V1OwnerReference>> _cache = new Dictionary<NamespacedName, IList<V1OwnerReference>>();
@@ -56,9 +52,7 @@ namespace Microsoft.Kubernetes.Controller.Informers
             : base(hostApplicationLifetime, logger)
         {
             _client = client.AnyResourceKind();
-            _entity = typeof(TResource).GetCustomAttribute<KubernetesEntityAttribute>();
-            _itemApiVersion = string.IsNullOrEmpty(_entity.Group) ? _entity.ApiVersion : $"{_entity.Group}/{_entity.ApiVersion}";
-            _itemKind = _entity.Kind;
+            _names = GroupApiVersionKind.From<TResource>();
         }
 
         private enum EventType
@@ -204,9 +198,9 @@ namespace Microsoft.Kubernetes.Controller.Informers
 
                 // request next page of items
                 using var listWithHttpMessage = await _client.ListClusterAnyResourceKindWithHttpMessagesAsync<TResource>(
-                    _entity.Group,
-                    _entity.ApiVersion,
-                    _entity.PluralName,
+                    _names.Group,
+                    _names.ApiVersion,
+                    _names.PluralName,
                     continueParameter: continueParameter,
                     cancellationToken: cancellationToken);
 
@@ -215,8 +209,8 @@ namespace Microsoft.Kubernetes.Controller.Informers
                 {
                     // These properties are not already set on items while listing
                     // assigned here for consistency
-                    item.ApiVersion = _itemApiVersion;
-                    item.Kind = _itemKind;
+                    item.ApiVersion = _names.GroupApiVersion;
+                    item.Kind = _names.Kind;
 
                     var key = NamespacedName.From(item);
                     _cache[key] = item?.Metadata?.OwnerReferences;
@@ -237,8 +231,8 @@ namespace Microsoft.Kubernetes.Controller.Informers
                     // send a deleted notification to clear any observer caches
                     var item = new TResource()
                     {
-                        ApiVersion = _itemApiVersion,
-                        Kind = _itemKind,
+                        ApiVersion = _names.GroupApiVersion,
+                        Kind = _names.Kind,
                         Metadata = new V1ObjectMeta(
                             name: key.Name,
                             namespaceProperty: key.Namespace,
@@ -273,9 +267,9 @@ namespace Microsoft.Kubernetes.Controller.Informers
 
             // begin watching where list left off
             var watchWithHttpMessage = _client.ListClusterAnyResourceKindWithHttpMessagesAsync<TResource>(
-                _entity.Group,
-                _entity.ApiVersion,
-                _entity.PluralName,
+                _names.Group,
+                _names.ApiVersion,
+                _names.PluralName,
                 watch: true,
                 resourceVersion: _lastResourceVersion,
                 cancellationToken: cancellationToken);

@@ -16,7 +16,7 @@ namespace Microsoft.Kubernetes.Controller.Informers
     /// <typeparam name="TResource">The type of <see cref="IKubernetesObject{V1ObjectMeta}"/> being monitored.</typeparam>
     /// <param name="eventType">The type of change event which was received.</param>
     /// <param name="resource">The instance of the resource which was received.</param>
-    public delegate void ResourceInformerCallback<TResource>(WatchEventType eventType, TResource resource) where TResource : IKubernetesObject<V1ObjectMeta>;
+    public delegate void ResourceInformerCallback<TResource>(WatchEventType eventType, TResource resource) where TResource : class, IKubernetesObject<V1ObjectMeta>;
 
     /// <summary>
     /// Interface IResourceInformer is a service which generates
@@ -29,7 +29,7 @@ namespace Microsoft.Kubernetes.Controller.Informers
     /// <seealso cref="IObservable{T}" />
     /// <seealso cref="IHostedService" />
     public interface IResourceInformer<TResource> : IHostedService, IResourceInformer
-        where TResource : IKubernetesObject<V1ObjectMeta>, new()
+        where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
     {
         /// <summary>
         /// Registers a callback for change notification. To ensure no events are missed the registration
