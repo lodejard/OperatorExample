@@ -107,5 +107,199 @@ namespace Microsoft.Kubernetes.Core.Client
         //   cancellationToken:
         //     The cancellation token.
         Task<HttpOperationResponse<KubernetesList<TResource>>> ListClusterAnyResourceKindWithHttpMessagesAsync<TResource>(string group, string version, string plural, string continueParameter = null, string fieldSelector = null, string labelSelector = null, int? limit = null, string resourceVersion = null, int? timeoutSeconds = null, bool? watch = null, string pretty = null, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default) where TResource : k8s.IKubernetesObject;
+
+        
+        /// <summary>
+        /// Creates a namespace scoped Custom object
+        /// </summary>
+        /// <param name='body'>
+        /// The JSON schema of the Resource to create.
+        /// </param>
+        /// <param name='group'>
+        /// The custom resource's group name
+        /// </param>
+        /// <param name='version'>
+        /// The custom resource's version
+        /// </param>
+        /// <param name='namespaceParameter'>
+        /// The custom resource's namespace
+        /// </param>
+        /// <param name='plural'>
+        /// The custom resource's plural name. For TPRs this would be lowercase plural
+        /// kind.
+        /// </param>
+        /// <param name='dryRun'>
+        /// When present, indicates that modifications should not be persisted. An
+        /// invalid or unrecognized dryRun directive will result in an error response
+        /// and no further processing of the request. Valid values are: - All: all dry
+        /// run stages will be processed
+        /// </param>
+        /// <param name='fieldManager'>
+        /// fieldManager is a name associated with the actor or entity that is making
+        /// these changes. The value must be less than or 128 characters long, and only
+        /// contain printable characters, as defined by
+        /// https://golang.org/pkg/unicode/#IsPrint.
+        /// </param>
+        /// <param name='pretty'>
+        /// If 'true', then the output is pretty printed.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        /// <exception cref="ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <return>
+        /// A response object containing the response body and response headers.
+        /// </return>
+        public Task<HttpOperationResponse<object>> CreateAnyResourceKindWithHttpMessagesAsync<TResource>(TResource body, string group, string version, string namespaceParameter, string plural, string dryRun = default(string), string fieldManager = default(string), string pretty = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken)) where TResource : IKubernetesObject;
+
+        
+        /// <summary>
+        /// patch the specified namespace scoped custom object
+        /// </summary>
+        /// <param name='body'>
+        /// The JSON schema of the Resource to patch.
+        /// </param>
+        /// <param name='group'>
+        /// the custom resource's group
+        /// </param>
+        /// <param name='version'>
+        /// the custom resource's version
+        /// </param>
+        /// <param name='namespaceParameter'>
+        /// The custom resource's namespace
+        /// </param>
+        /// <param name='plural'>
+        /// the custom resource's plural name. For TPRs this would be lowercase plural
+        /// kind.
+        /// </param>
+        /// <param name='name'>
+        /// the custom object's name
+        /// </param>
+        /// <param name='dryRun'>
+        /// When present, indicates that modifications should not be persisted. An
+        /// invalid or unrecognized dryRun directive will result in an error response
+        /// and no further processing of the request. Valid values are: - All: all dry
+        /// run stages will be processed
+        /// </param>
+        /// <param name='fieldManager'>
+        /// fieldManager is a name associated with the actor or entity that is making
+        /// these changes. The value must be less than or 128 characters long, and only
+        /// contain printable characters, as defined by
+        /// https://golang.org/pkg/unicode/#IsPrint. This field is required for apply
+        /// requests (application/apply-patch) but optional for non-apply patch types
+        /// (JsonPatch, MergePatch, StrategicMergePatch).
+        /// </param>
+        /// <param name='force'>
+        /// Force is going to "force" Apply requests. It means user will re-acquire
+        /// conflicting fields owned by other people. Force flag must be unset for
+        /// non-apply patch requests.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        /// <exception cref="ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <return>
+        /// A response object containing the response body and response headers.
+        /// </return>
+        public Task<HttpOperationResponse<object>> PatchAnyResourceKindWithHttpMessagesAsync(V1Patch body, string group, string version, string namespaceParameter, string plural, string name, string dryRun = default(string), string fieldManager = default(string), bool? force = default(bool?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        
+        /// <summary>
+        /// Deletes the specified namespace scoped custom object
+        /// </summary>
+        /// <param name='group'>
+        /// the custom resource's group
+        /// </param>
+        /// <param name='version'>
+        /// the custom resource's version
+        /// </param>
+        /// <param name='namespaceParameter'>
+        /// The custom resource's namespace
+        /// </param>
+        /// <param name='plural'>
+        /// the custom resource's plural name. For TPRs this would be lowercase plural
+        /// kind.
+        /// </param>
+        /// <param name='name'>
+        /// the custom object's name
+        /// </param>
+        /// <param name='body'>
+        /// </param>
+        /// <param name='gracePeriodSeconds'>
+        /// The duration in seconds before the object should be deleted. Value must be
+        /// non-negative integer. The value zero indicates delete immediately. If this
+        /// value is nil, the default grace period for the specified type will be used.
+        /// Defaults to a per object value if not specified. zero means delete
+        /// immediately.
+        /// </param>
+        /// <param name='orphanDependents'>
+        /// Deprecated: please use the PropagationPolicy, this field will be deprecated
+        /// in 1.7. Should the dependent objects be orphaned. If true/false, the
+        /// "orphan" finalizer will be added to/removed from the object's finalizers
+        /// list. Either this field or PropagationPolicy may be set, but not both.
+        /// </param>
+        /// <param name='propagationPolicy'>
+        /// Whether and how garbage collection will be performed. Either this field or
+        /// OrphanDependents may be set, but not both. The default policy is decided by
+        /// the existing finalizer set in the metadata.finalizers and the
+        /// resource-specific default policy.
+        /// </param>
+        /// <param name='dryRun'>
+        /// When present, indicates that modifications should not be persisted. An
+        /// invalid or unrecognized dryRun directive will result in an error response
+        /// and no further processing of the request. Valid values are: - All: all dry
+        /// run stages will be processed
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
+        /// <exception cref="ValidationException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        /// <return>
+        /// A response object containing the response body and response headers.
+        /// </return>
+        public Task<HttpOperationResponse<object>> DeleteAnyResourceKindWithHttpMessagesAsync(string group, string version, string namespaceParameter, string plural, string name, V1DeleteOptions body = default(V1DeleteOptions), int? gracePeriodSeconds = default(int?), bool? orphanDependents = default(bool?), string propagationPolicy = default(string), string dryRun = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 }

@@ -1,12 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using BasicOperator.Generators;
 using BasicOperator.Models;
 using k8s.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.ResourceKinds.OpenApi;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using System.Threading.Tasks;
 
 namespace BasicOperator
@@ -15,6 +19,12 @@ namespace BasicOperator
     {
         public static async Task<int> Main(string[] args)
         {
+            using var serilog = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                .CreateLogger();
+
             var hostBuilder = new HostBuilder();
 
             hostBuilder.ConfigureHostConfiguration(hostConfiguration =>
@@ -26,8 +36,10 @@ namespace BasicOperator
             {
                 services.AddLogging(logging =>
                 {
-                    logging.AddConsole();
+                    logging.AddSerilog(serilog, dispose: false);
                 });
+
+                services.AddTransient<IResourceKindProvider, OpenApiResourceKindProvider>();
 
                 services.AddCustomResourceDefinitionUpdater<V1alpha1HelloWorld>(options =>
                 {
@@ -36,10 +48,12 @@ namespace BasicOperator
 
                 services.AddOperator<V1alpha1HelloWorld>(settings =>
                 {
-                    settings.WithRelatedResource<V1Deployment>();
-                    settings.WithRelatedResource<V1ServiceAccount>();
-                    settings.WithRelatedResource<V1Service>();
-                    settings.WithRelatedResource<V1Ingress>();
+                    settings
+                        .WithRelatedResource<V1Deployment>()
+                        .WithRelatedResource<V1ServiceAccount>()
+                        .WithRelatedResource<V1Service>();
+
+                    settings.WithGenerator<HelloWorldGenerator>();
                 });
             });
 

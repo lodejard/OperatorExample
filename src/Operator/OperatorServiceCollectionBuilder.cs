@@ -5,6 +5,7 @@ using k8s;
 using k8s.Models;
 using Microsoft.Kubernetes;
 using Microsoft.Kubernetes.Operator;
+using Microsoft.Kubernetes.Operator.Generators;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -40,6 +41,13 @@ namespace Microsoft.Extensions.DependencyInjection
             where TRelatedResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             Services = Services.RegisterOperatorResourceInformer<TOperatorResource, TRelatedResource>();
+            return this;
+        }
+
+        public OperatorServiceCollectionBuilder<TOperatorResource> WithGenerator<TGenerator>()
+            where TGenerator : class, IOperatorGenerator<TOperatorResource>
+        {
+            Services = Services.AddTransient<IOperatorGenerator<TOperatorResource>, TGenerator>();
             return this;
         }
 

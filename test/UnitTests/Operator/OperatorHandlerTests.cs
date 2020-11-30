@@ -25,7 +25,7 @@ namespace Microsoft.Kubernetes.Operator
         public void NotifyWithPrimaryResourceCausesCacheEntryAndQueueItem()
         {
             // arrange
-            var generator = Mock.Of<IGenerator<TypicalResource>>();
+            var generator = Mock.Of<IOperatorGenerator<TypicalResource>>();
             var typicalInformer = new FakeResourceInformer<TypicalResource>();
             var podInformer = new FakeResourceInformer<V1Pod>();
             var addCalls = new List<NamespacedName>();

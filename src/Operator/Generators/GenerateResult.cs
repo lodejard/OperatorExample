@@ -23,6 +23,6 @@ namespace Microsoft.Kubernetes.Operator.Generators
         /// Gets or sets the list of generated resources to reconcile.
         /// </summary>
         /// <value>The resources.</value>
-        public IList<IKubernetesObject<V1ObjectMeta>> Resources { get; set; }
+        public IList<IKubernetesObject<V1ObjectMeta>> Resources { get; set; } = new List<IKubernetesObject<V1ObjectMeta>>();
     }
 }

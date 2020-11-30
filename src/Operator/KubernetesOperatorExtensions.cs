@@ -6,6 +6,7 @@ using k8s.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Kubernetes.Operator;
 using Microsoft.Kubernetes.Operator.Caches;
+using Microsoft.Kubernetes.Operator.Reconcilers;
 using System;
 using System.Linq;
 
@@ -27,9 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 services = services.AddSingleton(typeof(IOperatorCache<>), typeof(OperatorCache<>));
             }
 
-            if (!services.Any(services => services.ServiceType == typeof(IReconciler<>)))
+            if (!services.Any(services => services.ServiceType == typeof(IOperatorReconciler<>)))
             {
-                services = services.AddSingleton(typeof(IReconciler<>), typeof(Reconciler<>));
+                services = services.AddSingleton(typeof(IOperatorReconciler<>), typeof(OperatorReconciler<>));
             }
 
             return services;

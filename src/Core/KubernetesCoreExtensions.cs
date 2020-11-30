@@ -22,12 +22,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection.</returns>
         public static IServiceCollection AddKubernetesCore(this IServiceCollection services)
         {
-            services = services
-                .AddTransient<IResourceSerializers, ResourceSerializers>();
-
             if (!services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(IKubernetes)))
             {
-                services.Configure<KubernetesClientOptions>(options =>
+                services = services.Configure<KubernetesClientOptions>(options =>
                 {
                     if (options.Configuration == null)
                     {
@@ -35,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
                 });
 
-                services.AddSingleton<IKubernetes>(sp =>
+                services = services.AddSingleton<IKubernetes>(sp =>
                 {
                     var options = sp.GetRequiredService<IOptions<KubernetesClientOptions>>().Value;
 
@@ -43,9 +40,19 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
             }
 
+            if (!services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(IResourceSerializers)))
+            {
+                services = services.AddTransient<IResourceSerializers, ResourceSerializers>();
+            }
+            
+            if (!services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(IResourcePatcher)))
+            {
+                services = services.AddTransient<IResourcePatcher, ResourcePatcher>();
+            }
+
             if (!services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(IResourceKindManager)))
             {
-                services.AddSingleton<IResourceKindManager, ResourceKindManager>();
+                services = services.AddSingleton<IResourceKindManager, ResourceKindManager>();
             }
 
             return services;

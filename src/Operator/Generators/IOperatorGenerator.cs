@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Threading.Tasks;
+
 namespace Microsoft.Kubernetes.Operator.Generators
 {
-    public interface IGenerator<TResource>
+    public interface IOperatorGenerator<TResource>
     {
         /// <summary>
         /// Generates the specified resource. The resource document as the input is the source
@@ -14,6 +16,6 @@ namespace Microsoft.Kubernetes.Operator.Generators
         /// </summary>
         /// <param name="resource">The resource which this particular operator takes as input.</param>
         /// <returns>GenerateResult that determines what should be reconciled.</returns>
-        GenerateResult Generate(TResource resource);
+        Task<GenerateResult> GenerateAsync(TResource resource);
     }
 }

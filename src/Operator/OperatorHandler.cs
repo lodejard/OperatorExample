@@ -9,6 +9,7 @@ using Microsoft.Kubernetes.Controller.Informers;
 using Microsoft.Kubernetes.Controller.Queues;
 using Microsoft.Kubernetes.Operator.Caches;
 using Microsoft.Kubernetes.Operator.Generators;
+using Microsoft.Kubernetes.Operator.Reconcilers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,24 +25,22 @@ namespace Microsoft.Kubernetes.Operator
         private readonly List<IResourceInformerRegistration> _registrations = new List<IResourceInformerRegistration>();
         private readonly IRateLimitingQueue<NamespacedName> _queue;
         private readonly IOperatorCache<TResource> _cache;
-        private readonly IGenerator<TResource> _generator;
-        private readonly IReconciler<TResource> _reconciler;
+        private readonly IOperatorReconciler<TResource> _reconciler;
         private readonly ILogger<OperatorHandler<TResource>> _logger;
         private bool _disposedValue;
 
         public OperatorHandler(
-            IOptionsSnapshot<OperatorOptions> optionsSnapshot,
+            IOptionsSnapshot<OperatorOptions> optionsProvider,
             IOperatorCache<TResource> cache,
-            IGenerator<TResource> generator,
-            IReconciler<TResource> reconciler,
+            IOperatorReconciler<TResource> reconciler,
             ILogger<OperatorHandler<TResource>> logger)
         {
-            if (optionsSnapshot is null)
+            if (optionsProvider is null)
             {
-                throw new ArgumentNullException(nameof(optionsSnapshot));
+                throw new ArgumentNullException(nameof(optionsProvider));
             }
 
-            var options = optionsSnapshot.Get(_names.PluralNameGroup);
+            var options = optionsProvider.Get(_names.PluralNameGroup);
 
             foreach (var informer in options.Informers)
             {
@@ -51,7 +50,6 @@ namespace Microsoft.Kubernetes.Operator
             var rateLimiter = options.NewRateLimiter();
             _queue = options.NewRateLimitingQueue(rateLimiter);
             _cache = cache;
-            _generator = generator;
             _reconciler = reconciler;
             _logger = logger;
         }
@@ -198,6 +196,77 @@ namespace Microsoft.Kubernetes.Operator
 
         private async Task<bool> ReconcileWorkItemAsync(NamespacedName key, CancellationToken cancellationToken)
         {
+            // pkg\internal\controller\controller.go:194
+            if (!_cache.TryGetWorkItem(key, out var workItem))
+            {
+                // no knowledge of this resource at all. forget it ever happened.
+                _queue.Forget(key);
+                return true;
+            }
+
+            ReconcileResult result;
+            try
+            {
+                result = await _reconciler.ReconcileAsync(
+                    new ReconcileParameters<TResource>
+                    {
+                        Resource = workItem.Resource,
+                        RelatedResources = workItem.Related
+                    },
+                    cancellationToken);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception error)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                result = new ReconcileResult
+                {
+                    Error = error
+                };
+            }
+
+            if (result.Error != null)
+            {
+                // TODO: LOG Reconciler error
+
+                _logger.LogInformation(
+                    new EventId(3, "ErrorRetry"),
+                    "Scheduling retry for {ItemName}.{ItemNamespace}: {ErrorMessage}",
+                    key.Name,
+                    key.Namespace,
+                    result.Error.Message);
+
+                _queue.AddRateLimited(key);
+                return true;
+            }
+            else if (result.RequeueAfter > TimeSpan.Zero)
+            {
+                _logger.LogInformation(
+                    new EventId(4, "DelayRetry"),
+                    "Scheduling retry in {DelayTime} for {ItemName}.{ItemNamespace}",
+                    result.RequeueAfter,
+                    key.Name,
+                    key.Namespace);
+
+                _queue.Forget(key);
+                _queue.AddAfter(key, result.RequeueAfter);
+
+                // TODO: COUNTER
+                return true;
+            }
+            else if (result.Requeue)
+            {
+                _logger.LogInformation(
+                       new EventId(5, "BackoffRetry"),
+                       "Scheduling backoff retry for {ItemName}.{ItemNamespace}",
+                       key.Name,
+                       key.Namespace);
+
+                _queue.AddRateLimited(key);
+                return true;
+            }
+
+            _queue.Forget(key);
             return true;
         }
     }
