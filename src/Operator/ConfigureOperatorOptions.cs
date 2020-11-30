@@ -22,7 +22,12 @@ namespace Microsoft.Kubernetes.Operator
 
         public void Configure(string name, OperatorOptions options)
         {
-            if (string.Equals(name, $"{_names.PluralName}.{_names.Group}", StringComparison.Ordinal))
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            if (string.Equals(name, _names.PluralNameGroup, StringComparison.Ordinal))
             {
                 options.Informers.Add(_resourceInformer);
             }
