@@ -13,6 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
@@ -20,6 +21,7 @@ jobs:
         source-url: https://nuget.pkg.github.com/microsoft/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Setup .NET Core 5.0
       uses: actions/setup-dotnet@v1
       with:
@@ -27,30 +29,42 @@ jobs:
         source-url: https://nuget.pkg.github.com/microsoft/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Environment
+
+    - name: Set version and repository properties
       run: |
         cat <<EOF >>$GITHUB_ENV
         VersionSuffix=alpha1-build$(printf 00000${{ github.run_number }} | tail -c 5)
-        RepositoryBranch=${{ github.ref }}
+        RepositoryType=git
+        RepositoryUrl=https://github.com/${{ github.repository }}.git
+        RepositoryBranch=${GITHUB_REF#"refs/heads/"}
         RepositoryCommit=${{ github.sha }}
         EOF
+
     - name: Install dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore --configuration Release
+
     - name: Unit tests
       run: dotnet test test/UnitTests -l "liquid.md;LogFileName=UnitTests.md"
+
     - name: Publish tests
       uses: actions/upload-artifact@v2
       if: ${{always()}}
       with:
         name: 'Test Run'
         path: 'test/UnitTests/TestResults/UnitTests.md'
+
     - name: Package
       run: dotnet pack --no-restore --configuration Release --output pkg
+
     - name: Publish packages
       if: ${{ github.event_name == 'push' }}
-      run: find pkg -name *.nupkg | xargs -I {} dotnet nuget push {}
+      run: |
+        find pkg -name *.nupkg | while read -r nupkg_file; do
+          dotnet nuget push "${nupkg_file}" --skip-duplicate --api-key "${{ secrets.GITHUB_TOKEN }}" --source https://nuget.pkg.github.com/microsoft/index.json
+        done
 
       # add report as PR comment (if PR)
     - name: PR comment

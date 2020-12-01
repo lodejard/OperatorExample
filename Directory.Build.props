@@ -6,8 +6,6 @@
 
   <PropertyGroup>
     <VersionPrefix>0.2.0</VersionPrefix>
-    <RepositoryUrl>https://github.com/microsoft/OperatorFramework</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
     <Copyright>Copyright (c) Microsoft Corporation.</Copyright>
