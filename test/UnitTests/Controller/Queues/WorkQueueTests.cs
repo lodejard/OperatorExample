@@ -55,7 +55,7 @@ namespace Microsoft.Kubernetes.Controller.Queues
         }
 
         [TestMethod]
-        public async Task AddingSameItemAgainHasNoEffect()
+        public void AddingSameItemAgainHasNoEffect()
         {
             // arrange
             using IWorkQueue<string> queue = new WorkQueue<string>();
@@ -202,7 +202,7 @@ namespace Microsoft.Kubernetes.Controller.Queues
         }
 
         [TestMethod]
-        public async Task ShuttingDownReturnsTrueAfterShutdownIsCalled()
+        public void ShuttingDownReturnsTrueAfterShutdownIsCalled()
         {
             // arrange
             using IWorkQueue<string> queue = new WorkQueue<string>();

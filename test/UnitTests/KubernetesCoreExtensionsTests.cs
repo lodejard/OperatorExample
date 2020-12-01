@@ -3,14 +3,14 @@
 
 using k8s;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 
-namespace Microsoft.Kubernetes.Core.Helpers
+namespace Microsoft.Kubernetes
 {
     [TestClass]
-    public class KubernetesHelpersExtensionsTests
+    public class KubernetesCoreExtensionsTests
     {
         [TestMethod]
         public void KubernetesClientIsAdded()

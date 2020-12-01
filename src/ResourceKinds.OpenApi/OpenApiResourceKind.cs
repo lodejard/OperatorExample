@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.ResourceKinds;
 using NJsonSchema;
 using System;
 using System.Collections.Generic;

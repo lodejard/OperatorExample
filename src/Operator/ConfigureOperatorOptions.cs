@@ -9,7 +9,7 @@ using System;
 
 namespace Microsoft.Kubernetes.Operator
 {
-    public class ConfigureOperatorOptions<TOperatorResource, TRelatedResource> : IConfigureNamedOptions<OperatorOptions> 
+    public class ConfigureOperatorOptions<TOperatorResource, TRelatedResource> : IConfigureNamedOptions<OperatorOptions>
         where TRelatedResource : class, IKubernetesObject<V1ObjectMeta>, new()
     {
         private static GroupApiVersionKind _names = GroupApiVersionKind.From<TOperatorResource>();

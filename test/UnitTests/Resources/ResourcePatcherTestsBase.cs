@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.ResourceKinds;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -33,7 +33,7 @@ namespace Microsoft.Kubernetes.Resources
             IResourcePatcher patcher = new ResourcePatcher();
 
             // act
-            var context = new CreateJsonPatchContext
+            var parameters = new CreatePatchParameters
             {
                 ApplyResource = testYaml.Apply,
                 LastAppliedResource = testYaml.LastApplied,
@@ -42,12 +42,12 @@ namespace Microsoft.Kubernetes.Resources
 
             if (testYaml.ResourceKind != null)
             {
-                context.ResourceKind = await Manager.GetResourceKindAsync(
+                parameters.ResourceKind = await Manager.GetResourceKindAsync(
                     testYaml.ResourceKind.ApiVersion,
                     testYaml.ResourceKind.Kind);
             }
 
-            var patch = patcher.CreateJsonPatch(context);
+            var patch = patcher.CreateJsonPatch(parameters);
 
             // assert
             var operations = new ResourceSerializers().Convert<PatchOperation[]>(patch);
@@ -60,7 +60,7 @@ namespace Microsoft.Kubernetes.Resources
             IResourcePatcher patcher = new ResourcePatcher();
 
             // act
-            var context = new CreateJsonPatchContext
+            var parameters = new CreatePatchParameters
             {
                 ApplyResource = testYaml.Apply,
                 LiveResource = testYaml.Live,
@@ -68,12 +68,12 @@ namespace Microsoft.Kubernetes.Resources
 
             if (testYaml.ResourceKind != null)
             {
-                context.ResourceKind = await Manager.GetResourceKindAsync(
+                parameters.ResourceKind = await Manager.GetResourceKindAsync(
                     testYaml.ResourceKind.ApiVersion,
                     testYaml.ResourceKind.Kind);
             }
 
-            var patch = patcher.CreateJsonPatch(context);
+            var patch = patcher.CreateJsonPatch(parameters);
 
             // assert
             var operations = new ResourceSerializers().Convert<List<PatchOperation>>(patch);

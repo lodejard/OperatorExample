@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
 
-namespace Microsoft.Kubernetes.Core
+namespace Microsoft.Kubernetes
 {
     [TestClass]
     public class NamespacedNameTests

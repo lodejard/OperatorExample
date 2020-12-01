@@ -2,80 +2,81 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Kubernetes.ResourceKinds;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.Resources
 {
     public class ResourcePatcher : IResourcePatcher
     {
         private readonly IEqualityComparer<JToken> _tokenEqualityComparer = new JTokenEqualityComparer();
 
-        public JsonPatchDocument CreateJsonPatch(CreateJsonPatchContext context)
+        public JsonPatchDocument CreateJsonPatch(CreatePatchParameters parameters)
         {
-            if (context is null)
+            if (parameters is null)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(parameters));
             }
 
-            var state = new State(context);
+            var context = new Context(parameters);
 
-            var patch = AccumulatePatch(new JsonPatchDocument(), state);
+            var patch = AccumulatePatch(new JsonPatchDocument(), context);
 
             return patch;
         }
 
-        private JsonPatchDocument AccumulatePatch(JsonPatchDocument patch, State state)
+        private JsonPatchDocument AccumulatePatch(JsonPatchDocument patch, Context context)
         {
-            return state.Element.MergeStrategy switch
+            return context.Element.MergeStrategy switch
             {
-                ElementMergeStrategy.Unknown => MergeApplyAny(patch, state),
-                ElementMergeStrategy.ReplacePrimative => ReplacePrimative(patch, state),
+                ElementMergeStrategy.Unknown => MergeApplyAny(patch, context),
+                ElementMergeStrategy.ReplacePrimative => ReplacePrimative(patch, context),
 
-                ElementMergeStrategy.MergeObject => MergeObject(patch, state),
-                ElementMergeStrategy.MergeMap => MergeMap(patch, state),
+                ElementMergeStrategy.MergeObject => MergeObject(patch, context),
+                ElementMergeStrategy.MergeMap => MergeMap(patch, context),
 
-                ElementMergeStrategy.MergeListOfPrimative => MergeListOfPrimative(patch, state),
-                ElementMergeStrategy.ReplaceListOfPrimative => ReplaceListOfPrimative(patch, state),
-                ElementMergeStrategy.MergeListOfObject => MergeListOfObject(patch, state),
-                ElementMergeStrategy.ReplaceListOfObject => ReplaceListOfObject(patch, state),
+                ElementMergeStrategy.MergeListOfPrimative => MergeListOfPrimative(patch, context),
+                ElementMergeStrategy.ReplaceListOfPrimative => ReplaceListOfPrimative(patch, context),
+                ElementMergeStrategy.MergeListOfObject => MergeListOfObject(patch, context),
+                ElementMergeStrategy.ReplaceListOfObject => ReplaceListOfObject(patch, context),
 
                 _ => throw new Exception("Unhandled merge strategy"),
             };
         }
 
-        private JsonPatchDocument MergeApplyAny(JsonPatchDocument patch, State state)
+        private JsonPatchDocument MergeApplyAny(JsonPatchDocument patch, Context context)
         {
-            if (state.ApplyToken is JObject)
+            if (context.ApplyToken is JObject)
             {
-                return MergeObject(patch, state);
+                return MergeObject(patch, context);
             }
-            else if (state.ApplyToken is JArray)
+            else if (context.ApplyToken is JArray)
             {
-                return ReplaceListOfObjectOrPrimative(patch, state);
+                return ReplaceListOfObjectOrPrimative(patch, context);
             }
-            else if (state.ApplyToken is JValue)
+            else if (context.ApplyToken is JValue)
             {
-                return ReplacePrimative(patch, state);
+                return ReplacePrimative(patch, context);
             }
-            else if (state.ApplyToken == null && state.LastAppliedToken != null)
+            else if (context.ApplyToken == null && context.LastAppliedToken != null)
             {
-                return patch.Remove(state.Path);
+                return patch.Remove(context.Path);
             }
             else
             {
-                throw NewFormatException(state);
+                throw NewFormatException(context);
             }
         }
 
-        private FormatException NewFormatException(State context)
+        private FormatException NewFormatException(Context context)
         {
             return new FormatException($"{context.Kind.Kind}.{context.Kind.ApiVersion} {context.Path} type {context.ApplyToken?.Type} is incorrect for {context.Element?.MergeStrategy}");
         }
 
-        private JsonPatchDocument ReplacePrimative(JsonPatchDocument patch, State context)
+        private JsonPatchDocument ReplacePrimative(JsonPatchDocument patch, Context context)
         {
             if (context.ApplyToken is JValue apply)
             {
@@ -98,21 +99,21 @@ namespace Microsoft.Kubernetes.Core.Resources
             return patch;
         }
 
-        private JsonPatchDocument MergeObject(JsonPatchDocument patch, State state)
+        private JsonPatchDocument MergeObject(JsonPatchDocument patch, Context context)
         {
-            var apply = (JObject)state.ApplyToken;
-            var lastApplied = state.LastAppliedToken as JObject;
-            var live = state.LiveToken as JObject;
+            var apply = (JObject)context.ApplyToken;
+            var lastApplied = context.LastAppliedToken as JObject;
+            var live = context.LiveToken as JObject;
 
             if (live == null)
             {
-                return patch.Replace(state.Path, apply);
+                return patch.Replace(context.Path, apply);
             }
 
             foreach (var applyProperty in apply.Properties())
             {
                 var name = applyProperty.Name;
-                var path = $"{state.Path}/{EscapePath(name)}";
+                var path = $"{context.Path}/{EscapePath(name)}";
 
                 var liveProperty = live.Property(name, StringComparison.Ordinal);
 
@@ -124,9 +125,9 @@ namespace Microsoft.Kubernetes.Core.Resources
                 {
                     var lastAppliedProperty = lastApplied?.Property(name, StringComparison.Ordinal);
 
-                    var nested = state.Push(
+                    var nested = context.Push(
                         path,
-                        state.Element.GetPropertyElementType(name),
+                        context.Element.GetPropertyElementType(name),
                         applyProperty.Value,
                         lastAppliedProperty?.Value,
                         liveProperty.Value);
@@ -145,7 +146,7 @@ namespace Microsoft.Kubernetes.Core.Resources
                     var lastAppliedProperty = lastApplied?.Property(name, StringComparison.Ordinal);
                     if (lastAppliedProperty != null)
                     {
-                        var path = $"{state.Path}/{EscapePath(name)}";
+                        var path = $"{context.Path}/{EscapePath(name)}";
                         patch = patch.Remove(path);
                     }
                 }
@@ -154,23 +155,23 @@ namespace Microsoft.Kubernetes.Core.Resources
             return patch;
         }
 
-        private JsonPatchDocument MergeMap(JsonPatchDocument patch, State state)
+        private JsonPatchDocument MergeMap(JsonPatchDocument patch, Context context)
         {
-            var apply = (JObject)state.ApplyToken;
-            var lastApplied = state.LastAppliedToken as JObject;
-            var live = state.LiveToken as JObject;
+            var apply = (JObject)context.ApplyToken;
+            var lastApplied = context.LastAppliedToken as JObject;
+            var live = context.LiveToken as JObject;
 
             if (live == null)
             {
-                return patch.Replace(state.Path, apply);
+                return patch.Replace(context.Path, apply);
             }
 
-            var collectionElement = state.Element.GetCollectionElementType();
+            var collectionElement = context.Element.GetCollectionElementType();
 
             foreach (var applyProperty in apply.Properties())
             {
                 var key = applyProperty.Name;
-                var path = $"{state.Path}/{EscapePath(key)}";
+                var path = $"{context.Path}/{EscapePath(key)}";
 
                 var liveProperty = live.Property(key, StringComparison.Ordinal);
 
@@ -182,14 +183,14 @@ namespace Microsoft.Kubernetes.Core.Resources
                 {
                     var lastAppliedProperty = lastApplied?.Property(key, StringComparison.Ordinal);
 
-                    var nested = state.Push(
+                    var propertyContext = context.Push(
                         path,
                         collectionElement,
                         applyProperty.Value,
                         lastAppliedProperty?.Value,
                         liveProperty.Value);
 
-                    patch = AccumulatePatch(patch, nested);
+                    patch = AccumulatePatch(patch, propertyContext);
                 }
             }
 
@@ -203,7 +204,7 @@ namespace Microsoft.Kubernetes.Core.Resources
                     var lastAppliedProperty = lastApplied?.Property(name, StringComparison.Ordinal);
                     if (lastAppliedProperty != null)
                     {
-                        var path = $"{state.Path}/{EscapePath(name)}";
+                        var path = $"{context.Path}/{EscapePath(name)}";
                         patch = patch.Remove(path);
                     }
                 }
@@ -212,7 +213,7 @@ namespace Microsoft.Kubernetes.Core.Resources
             return patch;
         }
 
-        private JsonPatchDocument MergeListOfPrimative(JsonPatchDocument patch, State context)
+        private JsonPatchDocument MergeListOfPrimative(JsonPatchDocument patch, Context context)
         {
             if (!(context.ApplyToken is JArray applyArray))
             {
@@ -286,12 +287,12 @@ namespace Microsoft.Kubernetes.Core.Resources
             return patch;
         }
 
-        private JsonPatchDocument ReplaceListOfPrimative(JsonPatchDocument patch, State state)
+        private JsonPatchDocument ReplaceListOfPrimative(JsonPatchDocument patch, Context context)
         {
-            return ReplaceListOfObjectOrPrimative(patch, state);
+            return ReplaceListOfObjectOrPrimative(patch, context);
         }
 
-        private JsonPatchDocument MergeListOfObject(JsonPatchDocument patch, State context)
+        private JsonPatchDocument MergeListOfObject(JsonPatchDocument patch, Context context)
         {
             if (!(context.ApplyToken is JArray apply))
             {
@@ -322,14 +323,14 @@ namespace Microsoft.Kubernetes.Core.Resources
 
                 if (liveToken != null)
                 {
-                    var itemState = context.Push(
+                    var itemContext = context.Push(
                         path: $"{context.Path}/{index}",
                         element: element,
                         apply: applyToken,
                         lastApplied: lastAppliedToken,
                         live: liveToken);
 
-                    patch = AccumulatePatch(patch, itemState);
+                    patch = AccumulatePatch(patch, itemContext);
                 }
                 else
                 {
@@ -351,12 +352,12 @@ namespace Microsoft.Kubernetes.Core.Resources
             return patch;
         }
 
-        private JsonPatchDocument ReplaceListOfObject(JsonPatchDocument patch, State state)
+        private JsonPatchDocument ReplaceListOfObject(JsonPatchDocument patch, Context context)
         {
-            return ReplaceListOfObjectOrPrimative(patch, state);
+            return ReplaceListOfObjectOrPrimative(patch, context);
         }
 
-        private JsonPatchDocument ReplaceListOfObjectOrPrimative(JsonPatchDocument patch, State context)
+        private JsonPatchDocument ReplaceListOfObjectOrPrimative(JsonPatchDocument patch, Context context)
         {
             if (context.ApplyToken is JArray apply)
             {
@@ -384,9 +385,9 @@ namespace Microsoft.Kubernetes.Core.Resources
             return name.Replace("~", "~0", StringComparison.Ordinal).Replace("/", "~1", StringComparison.Ordinal);
         }
 
-        private struct State
+        private struct Context
         {
-            public State(CreateJsonPatchContext context)
+            public Context(CreatePatchParameters context)
             {
                 Path = string.Empty;
                 Kind = context.ResourceKind ?? DefaultResourceKind.Unknown;
@@ -396,7 +397,7 @@ namespace Microsoft.Kubernetes.Core.Resources
                 LiveToken = (JToken)context.LiveResource;
             }
 
-            public State(string path, IResourceKind kind, IResourceKindElement element, JToken apply, JToken lastApplied, JToken live) : this()
+            public Context(string path, IResourceKind kind, IResourceKindElement element, JToken apply, JToken lastApplied, JToken live) : this()
             {
                 Path = path;
                 Kind = kind;
@@ -418,9 +419,9 @@ namespace Microsoft.Kubernetes.Core.Resources
 
             public JToken LiveToken { get; }
 
-            public State Push(string path, IResourceKindElement element, JToken apply, JToken lastApplied, JToken live)
+            public Context Push(string path, IResourceKindElement element, JToken apply, JToken lastApplied, JToken live)
             {
-                return new State(path, Kind, element, apply, lastApplied, live);
+                return new Context(path, Kind, element, apply, lastApplied, live);
             }
         }
     }

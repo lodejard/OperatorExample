@@ -3,8 +3,6 @@
 
 using k8s;
 using k8s.Models;
-using Microsoft.Kubernetes;
-using System;
 
 namespace Microsoft.Kubernetes.Operator.Caches
 {

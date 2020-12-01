@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.ResourceKinds
 {
     public sealed class DefaultResourceKindElement : IResourceKindElement
     {

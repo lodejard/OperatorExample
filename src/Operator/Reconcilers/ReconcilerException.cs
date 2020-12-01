@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using k8s.Models;
-using Microsoft.Rest;
 using System;
 using System.Runtime.Serialization;
 

@@ -1,21 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using k8s;
+using k8s.Models;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Logging;
+using Microsoft.Kubernetes.Client;
+using Microsoft.Kubernetes.Operator.Generators;
+using Microsoft.Kubernetes.ResourceKinds;
+using Microsoft.Kubernetes.Resources;
+using Microsoft.Rest;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using k8s;
-using k8s.Models;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.Extensions.Logging;
-using Microsoft.Kubernetes.Core.Client;
-using Microsoft.Kubernetes.Core.Resources;
-using Microsoft.Kubernetes.Operator.Generators;
-using Microsoft.Rest;
-using Newtonsoft.Json;
 
 #pragma warning disable CA2213 // Disposable fields should be disposed
 
@@ -31,8 +32,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
         where TResource : class, IKubernetesObject<V1ObjectMeta>
     {
         private readonly IResourceSerializers _resourceSerializers;
-        private readonly IKubernetes _client;
-        private readonly IAnyResourceKind _anyClient;
+        private readonly IAnyResourceKind _resourceClient;
         private readonly IOperatorGenerator<TResource> _generator;
         private readonly IResourceKindManager _resourceKindManager;
         private readonly IResourcePatcher _resourcePatcher;
@@ -55,8 +55,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
             ILogger<OperatorReconciler<TResource>> logger)
         {
             _resourceSerializers = resourceSerializers;
-            _client = client;
-            _anyClient = client.AnyResourceKind();
+            _resourceClient = client.AnyResourceKind();
             _generator = generator;
             _resourceKindManager = resourceKindManager;
             _resourcePatcher = resourcePatcher;
@@ -205,7 +204,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
 
                 var kubernetesEntity = generatedResource.GetType().GetCustomAttribute<KubernetesEntityAttribute>();
 
-                var resultResource = await _anyClient.CreateAnyResourceKindWithHttpMessagesAsync(
+                var resultResource = await _resourceClient.CreateAnyResourceKindWithHttpMessagesAsync(
                     body: generatedResource,
                     group: generatedResource.ApiGroup(),
                     version: generatedResource.ApiGroupVersion(),
@@ -243,7 +242,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
                 preconditions: new V1Preconditions(
                     resourceVersion: existingResource.ResourceVersion()));
 
-            await _anyClient.DeleteAnyResourceKindWithHttpMessagesAsync(
+            await _resourceClient.DeleteAnyResourceKindWithHttpMessagesAsync(
                 group: existingResource.ApiGroup(),
                 version: existingResource.ApiGroupVersion(),
                 namespaceParameter: existingResource.Namespace() ?? string.Empty,
@@ -286,7 +285,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
 
                 var kubernetesEntity = generatedResource.GetType().GetCustomAttribute<KubernetesEntityAttribute>();
 
-                await _anyClient.PatchAnyResourceKindWithHttpMessagesAsync(
+                await _resourceClient.PatchAnyResourceKindWithHttpMessagesAsync(
                     body: new V1Patch(patch, V1Patch.PatchType.JsonPatch),
                     group: kubernetesEntity.Group,
                     version: kubernetesEntity.ApiVersion,
@@ -307,7 +306,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
 
         private async Task<JsonPatchDocument> CalculateJsonPatchDocumentAsync(IKubernetesObject<V1ObjectMeta> applyResource, IKubernetesObject<V1ObjectMeta> liveResource)
         {
-            var parameters = new CreateJsonPatchContext
+            var parameters = new CreatePatchParameters
             {
                 ApplyResource = _resourceSerializers.Convert<object>(applyResource),
                 LiveResource = _resourceSerializers.Convert<object>(liveResource),
@@ -339,7 +338,9 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
                 reconcilerException = default;
                 return false;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 // Don't allow deserialization errors to replace original exception 
                 reconcilerException = default;
@@ -352,7 +353,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
         /// </summary>
         private struct LazySerialization
         {
-            private JsonPatchDocument patch;
+            private readonly JsonPatchDocument _patch;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="LazySerialization"/> struct.
@@ -360,7 +361,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
             /// <param name="patch">The patch.</param>
             public LazySerialization(JsonPatchDocument patch)
             {
-                this.patch = patch;
+                this._patch = patch;
             }
 
             /// <summary>
@@ -369,7 +370,7 @@ namespace Microsoft.Kubernetes.Operator.Reconcilers
             /// <returns>A <see cref="string" /> that represents this instance.</returns>
             public override string ToString()
             {
-                return JsonConvert.SerializeObject(patch, Formatting.None);
+                return JsonConvert.SerializeObject(_patch, Formatting.None);
             }
         }
     }

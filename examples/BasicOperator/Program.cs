@@ -7,7 +7,7 @@ using k8s.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.ResourceKinds;
 using Microsoft.Kubernetes.ResourceKinds.OpenApi;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;

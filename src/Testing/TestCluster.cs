@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.Resources;
 using Microsoft.Kubernetes.Testing.Models;
 using System;
 using System.Collections.Generic;

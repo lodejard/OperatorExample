@@ -5,7 +5,7 @@ using k8s.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 
-namespace Microsoft.Kubernetes.Core
+namespace Microsoft.Kubernetes
 {
     [TestClass]
     public class GroupKindNamespacedNameTests

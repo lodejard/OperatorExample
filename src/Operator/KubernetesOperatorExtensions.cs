@@ -70,7 +70,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return operatorServices.Services;
         }
 
-        public static IServiceCollection RegisterOperatorResourceInformer<TOperatorResource, TRelatedResource>(this IServiceCollection services) 
+        public static IServiceCollection RegisterOperatorResourceInformer<TOperatorResource, TRelatedResource>(this IServiceCollection services)
             where TRelatedResource : class, IKubernetesObject<V1ObjectMeta>, new()
         {
             return services

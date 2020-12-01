@@ -3,11 +3,7 @@
 
 using k8s;
 using k8s.Models;
-using Microsoft.Kubernetes;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace Microsoft.Kubernetes.Operator.Caches
 {
@@ -16,10 +12,10 @@ namespace Microsoft.Kubernetes.Operator.Caches
     /// state with what's known to exist in the cluster.
     /// </summary>
     /// <typeparam name="TResource">The type of the operator resource.</typeparam>
-    public struct OperatorCacheWorkItem<TResource> 
+    public struct OperatorCacheWorkItem<TResource>
         where TResource : class, IKubernetesObject<V1ObjectMeta>, new()
     {
-        public readonly static OperatorCacheWorkItem<TResource> Empty = new OperatorCacheWorkItem<TResource>(
+        public static readonly OperatorCacheWorkItem<TResource> Empty = new OperatorCacheWorkItem<TResource>(
             resource: default,
             related: ImmutableDictionary<GroupKindNamespacedName, IKubernetesObject<V1ObjectMeta>>.Empty);
 

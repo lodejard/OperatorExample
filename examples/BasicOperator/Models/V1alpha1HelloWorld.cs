@@ -40,7 +40,7 @@ namespace BasicOperator.Models
         /// Select a kuard image label - will be "blue" by default
         /// </summary>
         [JsonProperty("kuardLabel")]
-        public string KuardLabel{ get; set; }
+        public string KuardLabel { get; set; }
 
         [JsonProperty("createServiceAccount")]
         public bool? CreateServiceAccount { get; set; }

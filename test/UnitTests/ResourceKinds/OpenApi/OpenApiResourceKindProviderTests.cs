@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Kubernetes.Core.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Threading.Tasks;

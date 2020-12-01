@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.Resources
 {
     /// <summary>
     /// Class ResourceSerializers implements the resource serializers interface.

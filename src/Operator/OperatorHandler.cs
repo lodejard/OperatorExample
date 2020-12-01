@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.Kubernetes.Controller.Informers;
 using Microsoft.Kubernetes.Controller.Queues;
 using Microsoft.Kubernetes.Operator.Caches;
-using Microsoft.Kubernetes.Operator.Generators;
 using Microsoft.Kubernetes.Operator.Reconcilers;
 using System;
 using System.Collections.Generic;

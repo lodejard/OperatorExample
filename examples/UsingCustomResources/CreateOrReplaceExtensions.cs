@@ -3,7 +3,7 @@
 
 using k8s;
 using k8s.Models;
-using Microsoft.Kubernetes.Core.Resources;
+using Microsoft.Kubernetes.Resources;
 using System;
 using System.Linq;
 using System.Threading;

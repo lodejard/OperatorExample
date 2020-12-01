@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.Resources
 {
     /// <summary>
     /// Interface IResourceSerializers provides common methods to convert between objects, json, and yaml

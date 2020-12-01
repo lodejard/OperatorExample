@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using Shouldly;
 using System.Collections.Generic;
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.Resources
 {
     [TestClass]
     public class ResourceSerializersTests

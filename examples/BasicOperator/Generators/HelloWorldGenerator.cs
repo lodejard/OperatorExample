@@ -4,13 +4,12 @@
 using BasicOperator.Models;
 using k8s;
 using k8s.Models;
-using Microsoft.Kubernetes.Core.Resources;
 using Microsoft.Kubernetes.Operator.Generators;
+using Microsoft.Kubernetes.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BasicOperator.Generators

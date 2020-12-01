@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Kubernetes.Core.Resources
+namespace Microsoft.Kubernetes.ResourceKinds
 {
     public class ResourceKindManager : IResourceKindManager
     {
